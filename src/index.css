@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Prompt", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Prompt", sans-serif;
+  --color-primary: #0097a7;
+  --color-primary-dark: #00796b;
+  --color-accent: #ff9800;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
