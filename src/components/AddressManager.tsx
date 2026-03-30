@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import { authStore } from '../services/authService';
 import { dataService, Address, OperationType, handleDataError } from '../services/dataService';
 import { MapPin, Plus, Trash2, Edit2, CheckCircle } from 'lucide-react';
 
@@ -20,8 +20,8 @@ const AddressManager: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!auth.currentUser) return;
-    dataService.getAddresses(auth.currentUser.uid)
+    if (!authStore.currentUser) return;
+    dataService.getAddresses(authStore.currentUser.uid)
       .then(setAddresses)
       .catch(e => handleDataError(e, OperationType.LIST, 'addresses'))
       .finally(() => setLoading(false));
@@ -29,8 +29,8 @@ const AddressManager: React.FC = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth.currentUser) return;
-    const uid = auth.currentUser.uid;
+    if (!authStore.currentUser) return;
+    const uid = authStore.currentUser.uid;
     const data = { ...formData, uid } as Omit<Address, 'id'>;
     const reset = () => {
       setIsAdding(false);
@@ -49,9 +49,9 @@ const AddressManager: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!auth.currentUser) return;
+    if (!authStore.currentUser) return;
     try {
-      const updated = await dataService.deleteAddress(auth.currentUser.uid, id);
+      const updated = await dataService.deleteAddress(authStore.currentUser.uid, id);
       setAddresses(updated);
     } catch (error) {
       handleDataError(error, OperationType.DELETE, 'addresses');

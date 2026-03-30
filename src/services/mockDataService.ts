@@ -2,7 +2,7 @@ import { USERS } from '../data';
 
 export const IS_LOCAL = (import.meta.env.VITE_AUTH_PROVIDER as string) !== 'go-api';
 
-// ── Mock Timestamp (compatible with Firestore Timestamp API) ─────────────
+// ── Mock timestamp helper for app-facing order dates ─────────────────────
 export const mockTs = (ms: number) => ({
   toMillis: () => ms,
   toDate: () => new Date(ms),

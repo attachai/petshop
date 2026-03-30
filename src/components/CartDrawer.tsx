@@ -1,7 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Award, ShoppingBag, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { CartItem } from '../types';
+import { calculateCartSubtotal, calculateCartTotal, calculatePointsDiscount, calculatePointsEarned } from '../features/shop/cartUtils';
+import { useAuth } from '../contexts/AuthContext';
 
 const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delta: number) => void, removeItem: (id: number) => void }> = ({ item, updateQuantity, removeItem }) => {
   const [showGift, setShowGift] = useState(false);
@@ -136,9 +138,16 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
   onCheckout: (pointsRedeemed: number) => void
 }) => {
   const [redeemPoints, setRedeemPoints] = useState(0);
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discount = redeemPoints * 0.01; // 100 points = $1
-  const total = Math.max(0, subtotal - discount);
+  const { user } = useAuth();
+  const subtotal = calculateCartSubtotal(cart);
+  const discount = calculatePointsDiscount(redeemPoints);
+  const total = calculateCartTotal(subtotal, redeemPoints);
+
+  useEffect(() => {
+    if (!user && redeemPoints !== 0) {
+      setRedeemPoints(0);
+    }
+  }, [redeemPoints, user]);
 
   const handleRedeemChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = Math.min(loyaltyPoints, Math.max(0, parseInt(e.target.value) || 0));
@@ -198,7 +207,7 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
 
             {cart.length > 0 && (
               <div className="p-6 border-t border-slate-100 space-y-4">
-                {loyaltyPoints > 0 && (
+                {user && loyaltyPoints > 0 && (
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -256,7 +265,7 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                   Checkout Now
                 </button>
                 <p className="text-[10px] text-center text-slate-400">
-                  You will earn {Math.floor(total)} points on this order
+                  You will earn {calculatePointsEarned(total)} points on this order
                 </p>
               </div>
             )}

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Award, ChevronDown, Filter, Heart, Menu, PawPrint, Search, ShoppingBag, User } from 'lucide-react';
 import { CATEGORIES } from '../data';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Navbar = ({ 
   cartCount, 
@@ -25,6 +26,7 @@ export const Navbar = ({
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const moreRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -107,10 +109,12 @@ export const Navbar = ({
           )}
 
           <div className="flex items-center gap-2 sm:gap-4">
-            <div className="hidden sm:flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100">
-              <Award size={16} className="text-emerald-600" />
-              <span className="text-sm font-bold text-emerald-700">{loyaltyPoints} pts</span>
-            </div>
+            {user && (
+              <div className="hidden sm:flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100">
+                <Award size={16} className="text-emerald-600" />
+                <span className="text-sm font-bold text-emerald-700">{loyaltyPoints} pts</span>
+              </div>
+            )}
             
             <button className="p-2.5 hover:bg-slate-100 rounded-full transition-colors hidden sm:block">
               <Search size={20} className="text-slate-600" />

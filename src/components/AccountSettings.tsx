@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { auth } from '../firebase';
+import { authStore } from '../services/authService';
 import { dataService, Profile, OperationType, handleDataError } from '../services/dataService';
 import { User, Mail, Phone, Shield, Save, CheckCircle, Camera, X } from 'lucide-react';
 
@@ -46,8 +46,8 @@ const AccountSettings: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!auth.currentUser) return;
-    dataService.getProfile(auth.currentUser.uid)
+    if (!authStore.currentUser) return;
+    dataService.getProfile(authStore.currentUser.uid)
       .then(p => { if (p) setProfile(p); })
       .catch(e => handleDataError(e, OperationType.GET, 'profile'))
       .finally(() => setLoading(false));
@@ -55,12 +55,12 @@ const AccountSettings: React.FC = () => {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!auth.currentUser) return;
+    if (!authStore.currentUser) return;
     setSaving(true);
     setSuccess(false);
     const displayName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || profile.displayName || '';
     try {
-      await dataService.updateProfile(auth.currentUser.uid, {
+      await dataService.updateProfile(authStore.currentUser.uid, {
         displayName,
         firstName: profile.firstName,
         lastName: profile.lastName,

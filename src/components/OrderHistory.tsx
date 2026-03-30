@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from '../firebase';
+import { authStore } from '../services/authService';
 import { dataService, Order, OrderItem, OperationType, handleDataError } from '../services/dataService';
 import { Package, Clock, CheckCircle, Truck, XCircle, ChevronDown, ChevronUp, MapPin, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -117,8 +117,8 @@ const OrderHistory: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!auth.currentUser) return;
-    dataService.getOrders(auth.currentUser.uid)
+    if (!authStore.currentUser) return;
+    dataService.getOrders(authStore.currentUser.uid)
       .then(setOrders)
       .catch(e => handleDataError(e, OperationType.LIST, 'orders'))
       .finally(() => setLoading(false));
@@ -144,9 +144,9 @@ const OrderHistory: React.FC = () => {
     const currentIndex = steps.indexOf(order.status);
     if (currentIndex >= steps.length - 1 || order.status === 'cancelled') return;
     const nextStatus = steps[currentIndex + 1];
-    if (!auth.currentUser) return;
+    if (!authStore.currentUser) return;
     try {
-      const updated = await dataService.updateOrderStatus(auth.currentUser.uid, order.id, nextStatus);
+      const updated = await dataService.updateOrderStatus(authStore.currentUser.uid, order.id, nextStatus);
       setOrders(updated);
     } catch (error) {
       handleDataError(error, OperationType.UPDATE, `orders/${order.id}`);

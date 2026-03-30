@@ -10,8 +10,7 @@ const SESSION_USERS_KEY = 'pet_registered_users';
 const PROFILE_KEY = (uid: string) => `mock_profile_${uid}`;
 
 // ── Module-level auth store ───────────────────────────────────────────────
-// Exposes auth.currentUser for compatibility with existing components
-// (OrderHistory, AddressManager, AccountSettings, CheckoutPage)
+// Shared auth state for the active provider.
 type AuthListener = (user: AppUser | null) => void;
 
 let _currentUser: AppUser | null = null;
