@@ -1,66 +1,127 @@
-import { AppUser } from '../types';
 import { USERS } from '../data';
+import { AppUser } from '../types';
+import { authProvider, isGoApiProvider } from '../config/runtime';
+import { apiFetch } from './apiClient';
+import { clearAuthState, setAuthUser } from './authStore';
+import {
+  getSessionUsers,
+  setSessionUsers,
+  setStoredAuthToken,
+  writeStorageJson,
+} from './authSession';
 
-const AUTH_PROVIDER = (import.meta.env.VITE_AUTH_PROVIDER as string) || 'local';
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string) || 'http://localhost:8080';
-
-const STORAGE_KEY = 'pet_auth_user';
-const TOKEN_KEY = 'pet_auth_token';
-const SESSION_USERS_KEY = 'pet_registered_users';
 const PROFILE_KEY = (uid: string) => `mock_profile_${uid}`;
 
-// ── Module-level auth store ───────────────────────────────────────────────
-// Shared auth state for the active provider.
-type AuthListener = (user: AppUser | null) => void;
-
-let _currentUser: AppUser | null = null;
-const _listeners = new Set<AuthListener>();
-
-function _notify(user: AppUser | null) {
-  _currentUser = user;
-  _listeners.forEach(fn => fn(user));
-}
-
-// Restore session from localStorage on module load
-try {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) _currentUser = JSON.parse(stored) as AppUser;
-} catch {
-  _currentUser = null;
-}
-
-export const authStore = {
-  get currentUser(): AppUser | null {
-    return _currentUser;
-  },
-  onAuthStateChanged(callback: AuthListener): () => void {
-    _listeners.add(callback);
-    callback(_currentUser);
-    return () => { _listeners.delete(callback); };
-  },
+type LocalRegisteredUser = {
+  uid: string;
+  email: string;
+  password: string;
+  displayName: string;
+  firstName?: string;
+  lastName?: string;
+  photoURL?: string;
+  phoneNumber?: string;
+  role: 'admin' | 'customer';
 };
 
-// ── Local provider ────────────────────────────────────────────────────────
-function _getAllLocalUsers(): Array<{ uid: string; email: string; password: string; displayName: string; photoURL?: string; phoneNumber?: string; role: 'admin' | 'customer' }> {
-  const session = JSON.parse(localStorage.getItem(SESSION_USERS_KEY) || '[]');
-  return [...USERS, ...session];
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' ? (value as Record<string, unknown>) : null;
+}
+
+function readString(record: Record<string, unknown>, ...keys: string[]): string {
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return '';
+}
+
+function readOptionalString(record: Record<string, unknown>, ...keys: string[]): string | undefined {
+  const value = readString(record, ...keys);
+  return value || undefined;
+}
+
+function normalizeAppUser(raw: unknown): AppUser {
+  const record = asRecord(raw);
+  if (!record) {
+    throw new Error('Invalid auth response: missing user payload');
+  }
+
+  const uid = readString(record, 'uid', 'id', 'userId', 'user_id');
+  const email = readString(record, 'email');
+  const firstName = readOptionalString(record, 'firstName', 'first_name');
+  const lastName = readOptionalString(record, 'lastName', 'last_name');
+  const displayName =
+    readString(record, 'displayName', 'display_name', 'name') ||
+    `${firstName || ''} ${lastName || ''}`.trim() ||
+    email;
+  const roleValue = readString(record, 'role');
+
+  if (!uid || !email) {
+    throw new Error('Invalid auth response: incomplete user payload');
+  }
+
+  return {
+    uid,
+    email,
+    displayName,
+    firstName,
+    lastName,
+    photoURL: readOptionalString(record, 'photoURL', 'photoUrl', 'photo_url', 'avatar'),
+    phoneNumber: readOptionalString(record, 'phoneNumber', 'phone_number', 'phone'),
+    role: roleValue === 'admin' ? 'admin' : 'customer',
+  };
+}
+
+function extractAuthPayload(raw: unknown): { user: AppUser; token?: string } {
+  const outer = asRecord(raw);
+  const nested = asRecord(outer?.data);
+  const source = nested || outer;
+
+  if (!source) {
+    throw new Error('Invalid auth response');
+  }
+
+  const token =
+    readOptionalString(source, 'token', 'accessToken', 'access_token') ||
+    readOptionalString(outer || {}, 'token', 'accessToken', 'access_token');
+  const userSource = source.user ?? source.account ?? source.profile ?? source;
+
+  return {
+    user: normalizeAppUser(userSource),
+    token,
+  };
+}
+
+function getAllLocalUsers(): LocalRegisteredUser[] {
+  const sessionUsers = getSessionUsers<LocalRegisteredUser>();
+  return [...USERS, ...sessionUsers];
 }
 
 async function localLogin(email: string, password: string): Promise<AppUser> {
-  const found = _getAllLocalUsers().find(
-    u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
+  const found = getAllLocalUsers().find(
+    (user) => user.email.toLowerCase() === email.toLowerCase() && user.password === password
   );
-  if (!found) throw new Error('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
+
+  if (!found) {
+    throw new Error('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
+  }
+
   const user: AppUser = {
     uid: found.uid,
     email: found.email,
     displayName: found.displayName,
+    firstName: found.firstName,
+    lastName: found.lastName,
     photoURL: found.photoURL,
     phoneNumber: found.phoneNumber,
     role: found.role,
   };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-  _notify(user);
+
+  setAuthUser(user);
   return user;
 }
 
@@ -71,45 +132,66 @@ async function localRegister(
   firstName?: string,
   lastName?: string,
 ): Promise<AppUser> {
-  if (_getAllLocalUsers().find(u => u.email.toLowerCase() === email.toLowerCase())) {
+  if (getAllLocalUsers().find((user) => user.email.toLowerCase() === email.toLowerCase())) {
     throw new Error('อีเมลนี้ถูกใช้งานแล้ว');
   }
+
   const uid = `user-${Date.now()}`;
-  const fn = firstName || displayName.split(' ')[0] || '';
-  const ln = lastName || displayName.split(' ').slice(1).join(' ') || '';
-  const newUser = { uid, email, password, displayName, firstName: fn, lastName: ln, role: 'customer' as const };
+  const resolvedFirstName = firstName || displayName.split(' ')[0] || '';
+  const resolvedLastName = lastName || displayName.split(' ').slice(1).join(' ') || '';
+  const newUser: LocalRegisteredUser = {
+    uid,
+    email,
+    password,
+    displayName,
+    firstName: resolvedFirstName,
+    lastName: resolvedLastName,
+    role: 'customer',
+  };
 
-  const session = JSON.parse(localStorage.getItem(SESSION_USERS_KEY) || '[]');
-  session.push(newUser);
-  localStorage.setItem(SESSION_USERS_KEY, JSON.stringify(session));
+  const sessionUsers = getSessionUsers<LocalRegisteredUser>();
+  setSessionUsers([...sessionUsers, newUser]);
+  writeStorageJson(PROFILE_KEY(uid), {
+    uid,
+    email,
+    displayName,
+    firstName: resolvedFirstName,
+    lastName: resolvedLastName,
+    photoURL: '',
+    phoneNumber: '',
+    createdAt: new Date().toISOString(),
+  });
 
-  const profile = { uid, email, displayName, firstName: fn, lastName: ln, photoURL: '', phoneNumber: '', createdAt: new Date().toISOString() };
-  localStorage.setItem(PROFILE_KEY(uid), JSON.stringify(profile));
+  const user: AppUser = {
+    uid,
+    email,
+    displayName,
+    firstName: resolvedFirstName,
+    lastName: resolvedLastName,
+    role: 'customer',
+  };
 
-  const user: AppUser = { uid, email, displayName, firstName: fn, lastName: ln, role: 'customer' };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-  _notify(user);
+  setAuthUser(user);
   return user;
 }
 
 async function localLogout(): Promise<void> {
-  localStorage.removeItem(STORAGE_KEY);
-  _notify(null);
+  clearAuthState();
 }
 
-// ── Go API provider ───────────────────────────────────────────────────────
 async function apiLogin(email: string, password: string): Promise<AppUser> {
-  const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+  const response = await apiFetch<unknown>('/api/auth/login', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
+    auth: false,
+    body: { email, password },
   });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'เข้าสู่ระบบไม่สำเร็จ');
-  const user: AppUser = data.user;
-  if (data.token) localStorage.setItem(TOKEN_KEY, data.token);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-  _notify(user);
+  const { user, token } = extractAuthPayload(response);
+
+  if (token) {
+    setStoredAuthToken(token);
+  }
+
+  setAuthUser(user);
   return user;
 }
 
@@ -120,35 +202,42 @@ async function apiRegister(
   firstName?: string,
   lastName?: string,
 ): Promise<AppUser> {
-  const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+  const response = await apiFetch<unknown>('/api/auth/register', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password, displayName, firstName, lastName }),
+    auth: false,
+    body: { email, password, displayName, firstName, lastName },
   });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'สมัครสมาชิกไม่สำเร็จ');
-  return apiLogin(email, password);
+
+  try {
+    const { user, token } = extractAuthPayload(response);
+    if (token) {
+      setStoredAuthToken(token);
+    }
+    setAuthUser(user);
+    return user;
+  } catch {
+    return apiLogin(email, password);
+  }
 }
 
 async function apiLogout(): Promise<void> {
-  const token = localStorage.getItem(TOKEN_KEY);
   try {
-    await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    await apiFetch('/api/auth/logout', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
     });
-  } catch { /* ignore network errors on logout */ }
-  localStorage.removeItem(STORAGE_KEY);
-  localStorage.removeItem(TOKEN_KEY);
-  _notify(null);
+  } catch {
+    // Ignore logout network failures and still clear local session state.
+  }
+
+  clearAuthState();
 }
 
-// ── Exported auth service ─────────────────────────────────────────────────
-const isGoApi = AUTH_PROVIDER === 'go-api';
+export { authStore } from './authStore';
 
 export const authService = {
-  provider: AUTH_PROVIDER,
-  login: isGoApi ? apiLogin : localLogin,
-  register: isGoApi ? apiRegister : localRegister,
-  logout: isGoApi ? apiLogout : localLogout,
+  provider: authProvider,
+  isGoApi: isGoApiProvider,
+  login: isGoApiProvider ? apiLogin : localLogin,
+  register: isGoApiProvider ? apiRegister : localRegister,
+  logout: isGoApiProvider ? apiLogout : localLogout,
 };

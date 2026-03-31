@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { ArrowRight, CreditCard } from 'lucide-react';
 
 import { PaymentMethod } from '../types';
@@ -21,8 +21,8 @@ export const PaymentStep = ({ paymentMethod, onPaymentMethodChange, onBack, onCo
     <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
       <section className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-100">
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-            <CreditCard className="text-emerald-600" size={20} />
+          <div className="w-10 h-10 bg-secondary/25 rounded-xl flex items-center justify-center">
+            <CreditCard className="text-primary" size={20} />
           </div>
           <h2 className="text-2xl font-display font-bold text-slate-900">Payment Method</h2>
         </div>
@@ -32,9 +32,9 @@ export const PaymentStep = ({ paymentMethod, onPaymentMethodChange, onBack, onCo
             <button
               key={method.id}
               onClick={() => onPaymentMethodChange(method.id)}
-              className={`p-6 rounded-[2.5rem] border-2 transition-all flex flex-col items-center gap-4 text-center group ${paymentMethod === method.id ? 'border-emerald-500 bg-emerald-50/30' : 'border-slate-100 hover:border-emerald-100'}`}
+              className={`p-6 rounded-[2.5rem] border-2 transition-all flex flex-col items-center gap-4 text-center group ${paymentMethod === method.id ? 'border-primary bg-secondary/30' : 'border-slate-100 hover:border-secondary/70'}`}
             >
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center font-bold transition-all ${paymentMethod === method.id ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-200' : 'bg-slate-100 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500'}`}>
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center font-bold transition-all ${paymentMethod === method.id ? 'bg-primary text-white shadow-lg shadow-secondary/70' : 'bg-slate-100 text-slate-400 group-hover:bg-secondary/25 group-hover:text-primary'}`}>
                 {method.iconLabel === 'card' ? <CreditCard size={32} /> : <span className="text-xl">{method.iconLabel}</span>}
               </div>
               <div>
@@ -50,12 +50,12 @@ export const PaymentStep = ({ paymentMethod, onPaymentMethodChange, onBack, onCo
             <div className="space-y-6">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Cardholder Name</label>
-                <input type="text" placeholder="e.g. JOHN DOE" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all" />
+                <input type="text" placeholder="e.g. JOHN DOE" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all" />
               </div>
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Card Number</label>
                 <div className="relative">
-                  <input type="text" placeholder="**** **** **** ****" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all" />
+                  <input type="text" placeholder="**** **** **** ****" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all" />
                   <div className="absolute right-6 top-1/2 -translate-y-1/2 flex gap-2">
                     <div className="w-8 h-5 bg-slate-100 rounded border border-slate-200" />
                     <div className="w-8 h-5 bg-slate-100 rounded border border-slate-200" />
@@ -65,11 +65,11 @@ export const PaymentStep = ({ paymentMethod, onPaymentMethodChange, onBack, onCo
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Expiry Date</label>
-                  <input type="text" placeholder="MM/YY" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all" />
+                  <input type="text" placeholder="MM/YY" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">CVV</label>
-                  <input type="password" placeholder="***" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all" />
+                  <input type="password" placeholder="***" className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all" />
                 </div>
               </div>
             </div>
@@ -94,14 +94,14 @@ export const PaymentStep = ({ paymentMethod, onPaymentMethodChange, onBack, onCo
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Bank Name</p>
                   <p className="font-bold text-slate-900">Kasikorn Bank (K-Bank)</p>
                 </div>
-                <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-xs">KB</div>
+                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xs">KB</div>
               </div>
               <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100">
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Account Number</p>
                   <p className="font-bold text-slate-900">012-3-45678-9</p>
                 </div>
-                <button className="text-xs font-bold text-emerald-600 hover:underline">Copy</button>
+                <button className="text-xs font-bold text-primary hover:underline">Copy</button>
               </div>
               <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100">
                 <div>
@@ -127,3 +127,5 @@ export const PaymentStep = ({ paymentMethod, onPaymentMethodChange, onBack, onCo
     </motion.div>
   );
 };
+
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, Heart, Minus, Plus, ShoppingCart, Star, X } from 'lucide-react';
@@ -83,7 +83,7 @@ export const QuickViewModal: React.FC<{
                   <button
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 snap-start transition-all ${activeImageIndex === idx ? 'ring-2 ring-emerald-600 ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
+                    className={`relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 snap-start transition-all ${activeImageIndex === idx ? 'ring-2 ring-primary ring-offset-2' : 'opacity-70 hover:opacity-100'}`}
                   >
                     <img src={img} alt={`${product.name} ${idx + 1}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </button>
@@ -96,7 +96,7 @@ export const QuickViewModal: React.FC<{
           <div className="w-full md:w-1/2 p-6 md:p-10 overflow-y-auto">
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-emerald-600 font-bold tracking-wide uppercase text-sm">{product.category}</p>
+                <p className="text-primary font-bold tracking-wide uppercase text-sm">{product.category}</p>
                 <div className="flex items-center gap-1 text-amber-400 bg-amber-50 px-2 py-1 rounded-lg">
                   <Star size={14} className="fill-amber-400" />
                   <span className="text-sm font-bold text-amber-700">{product.rating}</span>
@@ -120,16 +120,16 @@ export const QuickViewModal: React.FC<{
 
             {/* Free Gift Section */}
             {product.freeGift && (
-              <div className="mb-8 bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-start gap-4">
+              <div className="mb-8 bg-secondary/25 border border-secondary/70 rounded-2xl p-4 flex items-start gap-4">
                 <div className="w-16 h-16 bg-white rounded-xl overflow-hidden shadow-sm flex-shrink-0">
                   <img src={product.freeGift.image} alt={product.freeGift.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Free Gift</span>
+                    <span className="bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Free Gift</span>
                   </div>
-                  <h4 className="font-bold text-emerald-900">{product.freeGift.name}</h4>
-                  <p className="text-sm text-emerald-700 mt-1">Included automatically with your purchase.</p>
+                  <h4 className="font-bold text-primary-dark">{product.freeGift.name}</h4>
+                  <p className="text-sm text-primary-dark mt-1">Included automatically with your purchase.</p>
                 </div>
               </div>
             )}
@@ -138,7 +138,7 @@ export const QuickViewModal: React.FC<{
             {product.selectableGifts && (
               <div className="mb-8">
                 <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                  <span className="bg-emerald-100 text-emerald-700 w-6 h-6 rounded-full flex items-center justify-center text-xs">🎁</span>
+                  <span className="bg-secondary/55 text-primary-dark w-6 h-6 rounded-full flex items-center justify-center text-xs">ðŸŽ</span>
                   Select Your Free Gift
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -146,14 +146,14 @@ export const QuickViewModal: React.FC<{
                     <button
                       key={gift.id}
                       onClick={() => setSelectedGift(gift)}
-                      className={`flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all ${selectedGift?.id === gift.id ? 'border-emerald-500 bg-emerald-50' : 'border-slate-100 hover:border-emerald-200 hover:bg-slate-50'}`}
+                      className={`flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all ${selectedGift?.id === gift.id ? 'border-primary bg-secondary/25' : 'border-slate-100 hover:border-secondary hover:bg-slate-50'}`}
                     >
                       <img src={gift.image} alt={gift.name} className="w-12 h-12 rounded-lg object-cover" referrerPolicy="no-referrer" />
                       <div className="flex-1">
                         <p className="text-sm font-bold text-slate-900 line-clamp-2">{gift.name}</p>
                       </div>
                       {selectedGift?.id === gift.id && (
-                        <CheckCircle2 size={20} className="text-emerald-500 flex-shrink-0" />
+                        <CheckCircle2 size={20} className="text-primary flex-shrink-0" />
                       )}
                     </button>
                   ))}
@@ -181,7 +181,7 @@ export const QuickViewModal: React.FC<{
               <button 
                 onClick={handleAddToCart}
                 disabled={product.selectableGifts && !selectedGift}
-                className="flex-1 w-full bg-emerald-600 text-white h-14 rounded-2xl font-bold shadow-xl shadow-emerald-200 hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 w-full bg-primary text-white h-14 rounded-2xl font-bold shadow-xl shadow-secondary/70 hover:bg-primary-dark transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ShoppingCart size={20} />
                 Add to Cart
@@ -200,7 +200,7 @@ export const QuickViewModal: React.FC<{
                 onClose();
                 navigate(`/product/${product.id}`);
               }}
-              className="w-full py-4 text-slate-600 font-bold hover:text-emerald-600 transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
+              className="w-full py-4 text-slate-600 font-bold hover:text-primary transition-colors flex items-center justify-center gap-2 border-t border-slate-100"
             >
               View Full Details
             </button>
@@ -210,3 +210,4 @@ export const QuickViewModal: React.FC<{
     </AnimatePresence>
   );
 };
+

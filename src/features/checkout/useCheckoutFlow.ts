@@ -1,6 +1,6 @@
-﻿import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { authStore } from '../../services/authService';
+import { useAuth } from '../../contexts/AuthContext';
 import { dataService, handleDataError, OperationType } from '../../services/dataService';
 import { CartItem } from '../../types';
 import { calculateCartSubtotal, calculateCartTotal, calculatePointsDiscount } from '../shop/cartUtils';
@@ -23,6 +23,7 @@ interface UseCheckoutFlowOptions {
 }
 
 export const useCheckoutFlow = ({ cart, pointsRedeemed, onOrderComplete }: UseCheckoutFlowOptions) => {
+  const { user } = useAuth();
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>('delivery');
   const [deliveryType, setDeliveryType] = useState<DeliveryType>('standard');
   const [selectedBranchId, setSelectedBranchId] = useState(1);
@@ -100,7 +101,7 @@ export const useCheckoutFlow = ({ cart, pointsRedeemed, onOrderComplete }: UseCh
       return;
     }
 
-    if (!authStore.currentUser) {
+    if (!user) {
       setError('Please sign in to place an order');
       return;
     }
@@ -124,7 +125,7 @@ export const useCheckoutFlow = ({ cart, pointsRedeemed, onOrderComplete }: UseCh
     }));
 
     try {
-      await dataService.createOrder(authStore.currentUser.uid, {
+      await dataService.createOrder(user.uid, {
         id: `ord-${Date.now()}`,
         orderNumber,
         status: 'pending',
@@ -140,8 +141,8 @@ export const useCheckoutFlow = ({ cart, pointsRedeemed, onOrderComplete }: UseCh
       setIsSuccess(true);
       onOrderComplete(pointsRedeemed);
     } catch (err) {
-      handleDataError(err, OperationType.CREATE, 'orders');
-      setError('Failed to place order. Please try again.');
+      const normalized = handleDataError(err, OperationType.CREATE, 'orders');
+      setError(normalized.message || 'Failed to place order. Please try again.');
     } finally {
       setIsProcessing(false);
     }
@@ -154,6 +155,7 @@ export const useCheckoutFlow = ({ cart, pointsRedeemed, onOrderComplete }: UseCh
     selectedInstantService,
     selectedStandardService,
     total,
+    user,
     validateStep1,
   ]);
 
@@ -195,4 +197,3 @@ export const useCheckoutFlow = ({ cart, pointsRedeemed, onOrderComplete }: UseCh
 };
 
 export type CheckoutFlowState = ReturnType<typeof useCheckoutFlow>;
-

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Award, ChevronDown, Filter, Heart, Menu, PawPrint, Search, ShoppingBag, User } from 'lucide-react';
@@ -56,7 +56,7 @@ export const Navbar = ({
               <Menu size={24} className="text-slate-900" />
             </button>
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-orange-200 group-hover:scale-105 transition-transform">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-secondary/70 group-hover:scale-105 transition-transform">
                 <PawPrint size={20} className="text-white" />
               </div>
               <span className="text-2xl font-display font-bold text-slate-900 tracking-tight hidden sm:block">Pet Shop</span>
@@ -69,7 +69,7 @@ export const Navbar = ({
                 <button 
                   key={category}
                   onClick={() => onCategorySelect(category)}
-                  className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${activeCategory === category ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-white/50'}`}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${activeCategory === category ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-white/50'}`}
                 >
                   {category}
                 </button>
@@ -77,7 +77,7 @@ export const Navbar = ({
               <div className="relative" ref={moreRef}>
                 <button 
                   onClick={() => setIsMoreOpen(!isMoreOpen)}
-                  className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-1 transition-all ${moreCategories.includes(activeCategory) ? 'bg-white text-emerald-600 shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-white/50'}`}
+                  className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-1 transition-all ${moreCategories.includes(activeCategory) ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-white/50'}`}
                 >
                   More <ChevronDown size={14} className={`transition-transform ${isMoreOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -96,7 +96,7 @@ export const Navbar = ({
                             onCategorySelect(category);
                             setIsMoreOpen(false);
                           }}
-                          className={`px-4 py-2 text-sm font-medium text-left transition-colors ${activeCategory === category ? 'text-emerald-600 bg-emerald-50' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
+                          className={`px-4 py-2 text-sm font-medium text-left transition-colors ${activeCategory === category ? 'text-primary bg-secondary/25' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
                         >
                           {category}
                         </button>
@@ -110,9 +110,9 @@ export const Navbar = ({
 
           <div className="flex items-center gap-2 sm:gap-4">
             {user && (
-              <div className="hidden sm:flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100">
-                <Award size={16} className="text-emerald-600" />
-                <span className="text-sm font-bold text-emerald-700">{loyaltyPoints} pts</span>
+              <div className="hidden sm:flex items-center gap-2 bg-secondary/25 px-4 py-2 rounded-full border border-secondary/70">
+                <Award size={16} className="text-primary" />
+                <span className="text-sm font-bold text-primary-dark">{loyaltyPoints} pts</span>
               </div>
             )}
             
@@ -140,13 +140,13 @@ export const Navbar = ({
               onClick={onOpenCart}
               className="p-2.5 hover:bg-slate-100 rounded-full transition-colors relative group"
             >
-              <ShoppingBag size={20} className="text-slate-600 group-hover:text-emerald-600 transition-colors" />
+              <ShoppingBag size={20} className="text-slate-600 group-hover:text-primary transition-colors" />
               {cartCount > 0 && (
                 <motion.span 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   key={cartCount}
-                  className="absolute top-1 right-1 w-4 h-4 bg-emerald-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white"
+                  className="absolute top-1 right-1 w-4 h-4 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white"
                 >
                   {cartCount}
                 </motion.span>
@@ -158,3 +158,4 @@ export const Navbar = ({
     </nav>
   );
 };
+

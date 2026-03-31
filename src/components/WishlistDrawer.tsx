@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, ShoppingCart, X } from 'lucide-react';
 import { Product } from '../types';
@@ -87,7 +87,7 @@ export const WishlistDrawer = ({
                       <div className="flex items-center justify-between mt-3">
                         <button 
                           onClick={() => onAddToCart(item)}
-                          className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg transition-colors"
+                          className="flex items-center gap-1.5 text-xs font-bold text-primary bg-secondary/25 hover:bg-secondary/45 px-3 py-1.5 rounded-lg transition-colors"
                           aria-label={`Add ${item.name} to cart`}
                         >
                           <ShoppingCart size={14} />
@@ -112,3 +112,4 @@ export const WishlistDrawer = ({
     </AnimatePresence>
   );
 };
+

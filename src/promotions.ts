@@ -6,7 +6,7 @@ export interface Promotion {
   ctaText: string;
   image: string;
   badge?: string;
-  /** matches product.category — 'All' shows everything */
+  /** matches product.category - 'All' shows everything */
   categoryFilter: string;
   collectionHeading: string;
   collectionSubheading: string;
@@ -26,15 +26,15 @@ export const PROMOTIONS: Promotion[] = [
     label: 'Thonglor Pet Shop 2026',
     title: 'ดูแลสัตว์เลี้ยงที่รัก\nด้วยสิ่งที่ดีที่สุด',
     description:
-      'สินค้าคัดพิเศษสำหรับน้องหมาและน้องแมว จากแบรนด์ชั้นนำระดับโลก Royal Canin, Hill\'s, Purina พร้อมส่งตรงถึงบ้านคุณ',
+      "สินค้าคัดพิเศษสำหรับน้องหมาและน้องแมว จากแบรนด์ชั้นนำระดับโลก Royal Canin, Hill's, Purina พร้อมส่งตรงถึงบ้านคุณ",
     ctaText: 'ช้อปสินค้าทั้งหมด',
     image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=1400&h=700&fit=crop&auto=format',
     categoryFilter: 'All',
     collectionHeading: 'Thonglor Pet Shop Collection 2026',
     collectionSubheading:
       'สินค้าคัดพิเศษสำหรับสัตว์เลี้ยงที่คุณรัก ครบครันทั้งอาหาร ของเล่น อุปกรณ์กรูมมิ่ง และเฟอร์นิเจอร์สัตว์เลี้ยง',
-    labelColor: 'text-emerald-400',
-    badgeColor: 'bg-emerald-500',
+    labelColor: 'text-primary',
+    badgeColor: 'bg-primary',
     overlayColor: 'rgba(2, 20, 10, 0.78)',
     bannerTint: 'rgba(4, 120, 87, 0.85)',
   },

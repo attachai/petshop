@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, X } from 'lucide-react';
 import { FreeGift } from '../types';
@@ -49,16 +49,16 @@ export const GiftSelectionModal = ({
                     onSelect(gift);
                     onClose();
                   }}
-                  className="flex items-center gap-6 p-5 rounded-3xl border-2 border-slate-100 hover:border-emerald-500 hover:bg-emerald-50/30 transition-all text-left group"
+                  className="flex items-center gap-6 p-5 rounded-3xl border-2 border-slate-100 hover:border-primary hover:bg-secondary/30 transition-all text-left group"
                 >
                   <div className="w-20 h-20 bg-slate-100 rounded-2xl overflow-hidden flex-shrink-0">
                     <img src={gift.image} alt={gift.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-slate-900 text-lg">{gift.name}</h4>
-                    <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest mt-1 block">Free Gift</span>
+                    <span className="text-xs font-bold text-primary uppercase tracking-widest mt-1 block">Free Gift</span>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                  <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 group-hover:bg-primary group-hover:text-white transition-all">
                     <Plus size={20} />
                   </div>
                 </button>
@@ -70,3 +70,4 @@ export const GiftSelectionModal = ({
     </AnimatePresence>
   );
 };
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
+﻿import React, { useEffect, useState, ChangeEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Award, ShoppingBag, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { CartItem } from '../types';
@@ -11,14 +11,14 @@ const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delt
   const badgeText = item.badge || (hasDiscount ? 'SALE' : (item.freeGift || item.selectableGifts) ? 'FREE GIFT' : null);
 
   return (
-    <div className={`flex flex-col gap-2 group p-3 rounded-2xl transition-colors ${item.isFreeGift ? 'bg-emerald-50/50 border border-emerald-100/50' : ''}`}>
+    <div className={`flex flex-col gap-2 group p-3 rounded-2xl transition-colors ${item.isFreeGift ? 'bg-secondary/45 border border-secondary/70' : ''}`}>
       <div className="flex gap-4">
         <div className="w-20 h-20 bg-slate-100 rounded-xl overflow-hidden flex-shrink-0 relative">
           <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
           {badgeText && !item.isFreeGift && (
             <div className={`absolute top-1 left-1 z-10 px-1.5 py-0.5 rounded text-[8px] font-bold text-white shadow-sm flex items-center gap-1 ${
               badgeText.toUpperCase() === 'SALE' ? 'bg-rose-500' : 
-              badgeText.toUpperCase() === 'FREE GIFT' ? 'bg-emerald-500' : 
+              badgeText.toUpperCase() === 'FREE GIFT' ? 'bg-primary' : 
               'bg-slate-900'
             }`}>
               {badgeText}
@@ -29,12 +29,12 @@ const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delt
           <div className="flex items-start justify-between gap-2">
             <h4 className="font-semibold text-slate-900 truncate">{item.name}</h4>
             {item.isFreeGift && (
-              <span className="bg-emerald-100 text-emerald-700 text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-tighter flex-shrink-0">Gift</span>
+              <span className="bg-secondary/55 text-primary-dark text-[8px] font-bold px-1.5 py-0.5 rounded uppercase tracking-tighter flex-shrink-0">Gift</span>
             )}
           </div>
           <p className="text-sm text-slate-500 mb-2 flex items-center gap-2">
             {item.isFreeGift ? (
-              <span className="text-emerald-600 font-bold">FREE</span>
+              <span className="text-primary font-bold">FREE</span>
             ) : (
               <>
                 <span className={item.originalPrice ? 'text-rose-500 font-bold' : 'text-slate-900 font-bold'}>
@@ -87,7 +87,7 @@ const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delt
         <div className="mt-2">
           <button 
             onClick={() => setShowGift(!showGift)}
-            className="text-[10px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
+            className="text-[10px] font-bold text-primary hover:text-primary-dark transition-colors flex items-center gap-1"
           >
             {showGift ? 'Hide Gift Details' : 'Show Gift Details'}
             {showGift ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -103,19 +103,19 @@ const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delt
               >
                 <div className="pt-2">
                   {item.freeGift && (
-                    <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-2 flex items-start gap-2">
+                    <div className="bg-secondary/25 border border-secondary/70 rounded-lg p-2 flex items-start gap-2">
                       <img src={item.freeGift.image} alt="Free Gift" className="w-8 h-8 rounded object-cover" />
                       <div>
-                        <p className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider mb-0.5">Free Gift Included</p>
-                        <p className="text-xs text-emerald-900 font-medium">{item.freeGift.name}</p>
+                        <p className="text-[9px] font-bold text-primary-dark uppercase tracking-wider mb-0.5">Free Gift Included</p>
+                        <p className="text-xs text-primary-dark font-medium">{item.freeGift.name}</p>
                       </div>
                     </div>
                   )}
 
                   {item.selectableGifts && (
-                    <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-2">
-                      <p className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider mb-1">Selectable Gift</p>
-                      <p className="text-xs text-emerald-900 font-medium">Gift selected at checkout</p>
+                    <div className="bg-secondary/25 border border-secondary/70 rounded-lg p-2">
+                      <p className="text-[9px] font-bold text-primary-dark uppercase tracking-wider mb-1">Selectable Gift</p>
+                      <p className="text-xs text-primary-dark font-medium">Gift selected at checkout</p>
                     </div>
                   )}
                 </div>
@@ -188,7 +188,7 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                   <p className="text-slate-500 font-medium">Your cart is empty</p>
                   <button 
                     onClick={onClose}
-                    className="text-emerald-600 font-semibold hover:underline"
+                    className="text-primary font-semibold hover:underline"
                   >
                     Start shopping
                   </button>
@@ -211,7 +211,7 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                   <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <Award size={16} className="text-emerald-600" />
+                        <Award size={16} className="text-primary" />
                         <span className="text-sm font-bold text-slate-900">Redeem Points</span>
                       </div>
                       <span className="text-xs font-medium text-slate-500">{loyaltyPoints} available</span>
@@ -221,20 +221,20 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                         type="number" 
                         value={redeemPoints}
                         onChange={handleRedeemChange}
-                        className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-emerald-500"
+                        className="flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-primary"
                         placeholder="Points to use"
                         aria-label="Loyalty points to redeem"
                       />
                       <button 
                         onClick={() => setRedeemPoints(loyaltyPoints)}
-                        className="text-xs font-bold text-emerald-600 hover:underline"
+                        className="text-xs font-bold text-primary hover:underline"
                         aria-label="Redeem maximum available points"
                       >
                         Max
                       </button>
                     </div>
                     {redeemPoints > 0 && (
-                      <p className="text-[10px] text-emerald-600 font-bold">
+                      <p className="text-[10px] text-primary font-bold">
                         -${discount.toFixed(2)} discount applied
                       </p>
                     )}
@@ -248,8 +248,8 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                   </div>
                   {redeemPoints > 0 && (
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-emerald-600 font-medium">Discount (Points)</span>
-                      <span className="font-bold text-emerald-600">-${discount.toFixed(2)}</span>
+                      <span className="text-primary font-medium">Discount (Points)</span>
+                      <span className="font-bold text-primary">-${discount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className="flex items-center justify-between pt-2 border-t border-slate-100">
@@ -259,7 +259,7 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                 </div>
                 <button 
                   onClick={() => onCheckout(redeemPoints)}
-                  className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-colors"
+                  className="w-full bg-primary text-white py-4 rounded-2xl font-bold shadow-lg shadow-secondary/70 hover:bg-primary-dark transition-colors"
                   aria-label="Proceed to checkout"
                 >
                   Checkout Now
@@ -275,3 +275,5 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
     </AnimatePresence>
   );
 };
+
+

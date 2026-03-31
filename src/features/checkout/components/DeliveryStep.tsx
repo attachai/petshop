@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, ExternalLink, MapPin, Package, Phone, Truck } from 'lucide-react';
 
 import { PickupBranch, ShippingService, AddressForm, DeliveryMethod, DeliveryType } from '../types';
@@ -47,8 +47,8 @@ export const DeliveryStep = ({
     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
       <section className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-100">
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-            <Truck className="text-emerald-600" size={20} />
+          <div className="w-10 h-10 bg-secondary/25 rounded-xl flex items-center justify-center">
+            <Truck className="text-primary" size={20} />
           </div>
           <h2 className="text-2xl font-display font-bold text-slate-900">Delivery Method</h2>
         </div>
@@ -56,9 +56,9 @@ export const DeliveryStep = ({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
           <button
             onClick={() => onDeliveryMethodChange('delivery')}
-            className={`p-6 rounded-3xl border-2 transition-all text-left flex items-start gap-5 ${deliveryMethod === 'delivery' ? 'border-emerald-500 bg-emerald-50/30' : 'border-slate-100 hover:border-emerald-200'}`}
+            className={`p-6 rounded-3xl border-2 transition-all text-left flex items-start gap-5 ${deliveryMethod === 'delivery' ? 'border-primary bg-secondary/30' : 'border-slate-100 hover:border-secondary'}`}
           >
-            <div className={`p-4 rounded-2xl ${deliveryMethod === 'delivery' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-200' : 'bg-slate-100 text-slate-400'}`}>
+            <div className={`p-4 rounded-2xl ${deliveryMethod === 'delivery' ? 'bg-primary text-white shadow-lg shadow-secondary/70' : 'bg-slate-100 text-slate-400'}`}>
               <Package size={28} />
             </div>
             <div>
@@ -69,9 +69,9 @@ export const DeliveryStep = ({
 
           <button
             onClick={() => onDeliveryMethodChange('pickup')}
-            className={`p-6 rounded-3xl border-2 transition-all text-left flex items-start gap-5 ${deliveryMethod === 'pickup' ? 'border-emerald-500 bg-emerald-50/30' : 'border-slate-100 hover:border-emerald-200'}`}
+            className={`p-6 rounded-3xl border-2 transition-all text-left flex items-start gap-5 ${deliveryMethod === 'pickup' ? 'border-primary bg-secondary/30' : 'border-slate-100 hover:border-secondary'}`}
           >
-            <div className={`p-4 rounded-2xl ${deliveryMethod === 'pickup' ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-200' : 'bg-slate-100 text-slate-400'}`}>
+            <div className={`p-4 rounded-2xl ${deliveryMethod === 'pickup' ? 'bg-primary text-white shadow-lg shadow-secondary/70' : 'bg-slate-100 text-slate-400'}`}>
               <MapPin size={28} />
             </div>
             <div>
@@ -110,11 +110,11 @@ export const DeliveryStep = ({
 
                     onSelectedStandardServiceChange(service.id);
                   }}
-                  className={`p-5 rounded-2xl border-2 transition-all flex flex-col gap-3 ${selectedServiceId === service.id ? 'border-emerald-500 bg-emerald-50/50' : 'border-slate-100 hover:border-emerald-100'}`}
+                  className={`p-5 rounded-2xl border-2 transition-all flex flex-col gap-3 ${selectedServiceId === service.id ? 'border-primary bg-secondary/45' : 'border-slate-100 hover:border-secondary/70'}`}
                 >
                   <div className="flex items-center justify-between w-full">
                     <span className="text-2xl">{service.icon}</span>
-                    <span className="text-xs font-bold text-emerald-600 bg-emerald-100/50 px-2 py-1 rounded-lg">${service.price}</span>
+                    <span className="text-xs font-bold text-primary bg-secondary/60 px-2 py-1 rounded-lg">${service.price}</span>
                   </div>
                   <span className="text-sm font-bold text-slate-900">{service.name}</span>
                 </button>
@@ -127,7 +127,7 @@ export const DeliveryStep = ({
                 <input
                   type="text"
                   placeholder="e.g. John Doe"
-                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                   value={address.name}
                   onChange={(event) => onAddressChange('name', event.target.value)}
                 />
@@ -137,7 +137,7 @@ export const DeliveryStep = ({
                 <input
                   type="tel"
                   placeholder="e.g. 0812345678"
-                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                   value={address.phone}
                   onChange={(event) => onAddressChange('phone', event.target.value)}
                 />
@@ -146,7 +146,7 @@ export const DeliveryStep = ({
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1">Address Details</label>
                 <textarea
                   placeholder="Street name, Building, House No."
-                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all h-24 resize-none"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all h-24 resize-none"
                   value={address.details}
                   onChange={(event) => onAddressChange('details', event.target.value)}
                 />
@@ -156,7 +156,7 @@ export const DeliveryStep = ({
                 <input
                   type="text"
                   placeholder="e.g. Bangkok"
-                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                   value={address.province}
                   onChange={(event) => onAddressChange('province', event.target.value)}
                 />
@@ -166,7 +166,7 @@ export const DeliveryStep = ({
                 <input
                   type="text"
                   placeholder="e.g. 10110"
-                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                  className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                   value={address.zip}
                   onChange={(event) => onAddressChange('zip', event.target.value)}
                 />
@@ -181,9 +181,9 @@ export const DeliveryStep = ({
                 <button
                   key={branch.id}
                   onClick={() => onSelectedBranchChange(branch.id)}
-                  className={`w-full p-6 rounded-[2.5rem] border-2 transition-all text-left flex items-center gap-6 group ${selectedBranch === branch.id ? 'border-emerald-500 bg-emerald-50/30' : 'border-slate-100 hover:border-emerald-100'}`}
+                  className={`w-full p-6 rounded-[2.5rem] border-2 transition-all text-left flex items-center gap-6 group ${selectedBranch === branch.id ? 'border-primary bg-secondary/30' : 'border-slate-100 hover:border-secondary/70'}`}
                 >
-                  <div className={`p-4 rounded-2xl transition-all ${selectedBranch === branch.id ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-200' : 'bg-slate-100 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-500'}`}>
+                  <div className={`p-4 rounded-2xl transition-all ${selectedBranch === branch.id ? 'bg-primary text-white shadow-lg shadow-secondary/70' : 'bg-slate-100 text-slate-400 group-hover:bg-secondary/25 group-hover:text-primary'}`}>
                     <MapPin size={24} />
                   </div>
                   <div className="flex-1">
@@ -197,7 +197,7 @@ export const DeliveryStep = ({
                         href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branch.address)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-emerald-600 font-bold hover:underline flex items-center gap-1"
+                        className="text-xs text-primary font-bold hover:underline flex items-center gap-1"
                         onClick={(event) => event.stopPropagation()}
                       >
                         <ExternalLink size={12} />
@@ -210,7 +210,7 @@ export const DeliveryStep = ({
                       </span>
                     </div>
                   </div>
-                  <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${selectedBranch === branch.id ? 'border-emerald-500 bg-emerald-500' : 'border-slate-200'}`}>
+                  <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${selectedBranch === branch.id ? 'border-primary bg-primary' : 'border-slate-200'}`}>
                     {selectedBranch === branch.id && <CheckCircle2 size={18} className="text-white" />}
                   </div>
                 </button>
@@ -230,3 +230,5 @@ export const DeliveryStep = ({
     </motion.div>
   );
 };
+
+

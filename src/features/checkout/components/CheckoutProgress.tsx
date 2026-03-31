@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
 
 import { CHECKOUT_STEPS } from '../constants';
@@ -17,18 +17,18 @@ export const CheckoutProgress = ({ currentStep }: CheckoutProgressProps) => {
             <motion.div
               initial={false}
               animate={{
-                backgroundColor: currentStep >= step.step ? '#10b981' : '#ffffff',
+                backgroundColor: currentStep >= step.step ? '#00A8E2' : '#ffffff',
                 color: currentStep >= step.step ? '#ffffff' : '#cbd5e1',
                 scale: currentStep === step.step ? 1.1 : 1,
               }}
               className={`w-12 h-12 rounded-full flex items-center justify-center transition-all border-2 ${
-                currentStep >= step.step ? 'border-emerald-600 shadow-lg shadow-emerald-100' : 'border-slate-200'
+                currentStep >= step.step ? 'border-primary shadow-lg shadow-secondary/55' : 'border-slate-200'
               }`}
             >
               <step.icon size={20} />
             </motion.div>
             <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${
-              currentStep >= step.step ? 'text-emerald-600' : 'text-slate-400'
+              currentStep >= step.step ? 'text-primary' : 'text-slate-400'
             }`}>
               {step.label}
             </span>
@@ -37,7 +37,7 @@ export const CheckoutProgress = ({ currentStep }: CheckoutProgressProps) => {
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center border-2 border-white"
+                className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center border-2 border-white"
               >
                 <CheckCircle2 size={10} />
               </motion.div>
@@ -49,7 +49,7 @@ export const CheckoutProgress = ({ currentStep }: CheckoutProgressProps) => {
               <motion.div
                 initial={{ width: '0%' }}
                 animate={{ width: currentStep > step.step ? '100%' : '0%' }}
-                className="h-full bg-emerald-600"
+                className="h-full bg-primary"
               />
             </div>
           )}
@@ -58,3 +58,6 @@ export const CheckoutProgress = ({ currentStep }: CheckoutProgressProps) => {
     </div>
   );
 };
+
+
+

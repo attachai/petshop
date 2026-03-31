@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+﻿import { motion } from 'motion/react';
 import { Award, Truck } from 'lucide-react';
 
 import { CartItem } from '../../../types';
@@ -50,7 +50,7 @@ export const OrderSummary = ({
                     badgeText.toUpperCase() === 'SALE'
                       ? 'bg-rose-500'
                       : badgeText.toUpperCase() === 'FREE GIFT'
-                        ? 'bg-emerald-500'
+                        ? 'bg-primary'
                         : 'bg-slate-900'
                   }`}>
                     {badgeText}
@@ -62,7 +62,7 @@ export const OrderSummary = ({
                 <div className="flex items-center justify-between mt-1">
                   <p className="text-xs text-slate-500">Qty: {item.quantity}</p>
                   <span className="text-sm font-bold text-slate-900">
-                    {item.isFreeGift ? <span className="text-emerald-600">FREE</span> : `$${(item.price * item.quantity).toFixed(2)}`}
+                    {item.isFreeGift ? <span className="text-primary">FREE</span> : `$${(item.price * item.quantity).toFixed(2)}`}
                   </span>
                 </div>
               </div>
@@ -79,10 +79,10 @@ export const OrderSummary = ({
         {pointsRedeemed > 0 && (
           <div className="flex justify-between text-sm">
             <div className="flex items-center gap-2">
-              <Award size={14} className="text-emerald-600" />
-              <span className="text-emerald-600 font-medium">Points Discount</span>
+              <Award size={14} className="text-primary" />
+              <span className="text-primary font-medium">Points Discount</span>
             </div>
-            <span className="font-bold text-emerald-600">-${discount.toFixed(2)}</span>
+            <span className="font-bold text-primary">-${discount.toFixed(2)}</span>
           </div>
         )}
         <div className="flex justify-between text-sm">
@@ -91,13 +91,13 @@ export const OrderSummary = ({
             <span className="text-slate-500 font-medium">Shipping</span>
           </div>
           <span className="font-bold text-slate-900">
-            {shippingFee === 0 ? <span className="text-emerald-600">Free</span> : `$${shippingFee.toFixed(2)}`}
+            {shippingFee === 0 ? <span className="text-primary">Free</span> : `$${shippingFee.toFixed(2)}`}
           </span>
         </div>
         <div className="flex justify-between pt-6 border-t border-slate-100">
           <span className="text-xl font-display font-bold text-slate-900">Total</span>
           <div className="text-right">
-            <span className="text-3xl font-display font-bold text-emerald-600 block">${total.toFixed(2)}</span>
+            <span className="text-3xl font-display font-bold text-primary block">${total.toFixed(2)}</span>
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Incl. VAT</p>
           </div>
         </div>
@@ -123,3 +123,5 @@ export const OrderSummary = ({
     </div>
   );
 };
+
+

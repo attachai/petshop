@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+﻿import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -61,7 +61,7 @@ export const HeroCarousel: React.FC = () => {
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
-        {/* ── Slides ─────────────────────────────────────────────────── */}
+        {/* â”€â”€ Slides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
             key={promo.id}
@@ -142,7 +142,7 @@ export const HeroCarousel: React.FC = () => {
               >
                 <button
                   onClick={() => navigate(`/collection?promo=${promo.id}`)}
-                  className="bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold inline-flex items-center gap-2 hover:bg-emerald-50 transition-colors group"
+                  className="bg-white text-slate-900 px-8 py-4 rounded-2xl font-bold inline-flex items-center gap-2 hover:bg-secondary/25 transition-colors group"
                 >
                   {promo.ctaText}
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
@@ -157,7 +157,7 @@ export const HeroCarousel: React.FC = () => {
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Navigation arrows ──────────────────────────────────────── */}
+        {/* â”€â”€ Navigation arrows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <button
           onClick={prev}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 bg-white/15 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all text-white"
@@ -173,7 +173,7 @@ export const HeroCarousel: React.FC = () => {
           <ChevronRight size={20} />
         </button>
 
-        {/* ── Dot indicators ─────────────────────────────────────────── */}
+        {/* â”€â”€ Dot indicators â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
           {PROMOTIONS.map((p, i) => (
             <button
@@ -189,7 +189,7 @@ export const HeroCarousel: React.FC = () => {
           ))}
         </div>
 
-        {/* ── Auto-play progress bar ──────────────────────────────────── */}
+        {/* â”€â”€ Auto-play progress bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/10 z-20">
           {!isPaused && (
             <motion.div
@@ -205,3 +205,4 @@ export const HeroCarousel: React.FC = () => {
     </header>
   );
 };
+

@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { authStore } from '../services/authService';
-import { dataService, Order, OrderItem, OperationType, handleDataError } from '../services/dataService';
-import { Package, Clock, CheckCircle, Truck, XCircle, ChevronDown, ChevronUp, MapPin, Activity } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import {
+  Activity,
+  CheckCircle,
+  ChevronDown,
+  ChevronUp,
+  Clock,
+  Package,
+  Truck,
+  XCircle,
+} from 'lucide-react';
 
+import { useAuth } from '../contexts/AuthContext';
+import { dataService, handleDataError, OperationType, Order, OrderItem } from '../services/dataService';
 
 const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
   const [showGift, setShowGift] = useState(false);
@@ -26,9 +35,11 @@ const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
             )}
             {badgeText && (
               <div className={`absolute -top-2 -left-2 z-10 px-1.5 py-0.5 rounded text-[8px] font-bold text-white shadow-sm flex items-center gap-1 ${
-                badgeText.toUpperCase() === 'SALE' ? 'bg-rose-500' : 
-                badgeText.toUpperCase() === 'FREE GIFT' ? 'bg-emerald-500' : 
-                'bg-slate-900'
+                badgeText.toUpperCase() === 'SALE'
+                  ? 'bg-rose-500'
+                  : badgeText.toUpperCase() === 'FREE GIFT'
+                    ? 'bg-primary'
+                    : 'bg-slate-900'
               }`}>
                 {badgeText}
               </div>
@@ -56,17 +67,17 @@ const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
 
       {(item.freeGift || item.selectableGifts) && (
         <div className="ml-15 mt-1">
-          <button 
+          <button
             onClick={() => setShowGift(!showGift)}
-            className="text-[10px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors flex items-center gap-1"
+            className="text-[10px] font-bold text-primary hover:text-primary-dark transition-colors flex items-center gap-1"
           >
             {showGift ? 'Hide Gift Details' : 'Show Gift Details'}
             {showGift ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           </button>
-          
+
           <AnimatePresence>
             {showGift && (
-              <motion.div 
+              <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
@@ -74,19 +85,19 @@ const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
               >
                 <div className="pt-2">
                   {item.freeGift && (
-                    <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-2 flex items-start gap-2">
+                    <div className="bg-secondary/25 border border-secondary/70 rounded-lg p-2 flex items-start gap-2">
                       <img src={item.freeGift.image} alt="Free Gift" className="w-8 h-8 rounded object-cover" />
                       <div>
-                        <p className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider mb-0.5">Free Gift Included</p>
-                        <p className="text-xs text-emerald-900 font-medium">{item.freeGift.name}</p>
+                        <p className="text-[9px] font-bold text-primary-dark uppercase tracking-wider mb-0.5">Free Gift Included</p>
+                        <p className="text-xs text-primary-dark font-medium">{item.freeGift.name}</p>
                       </div>
                     </div>
                   )}
 
                   {item.selectableGifts && (
-                    <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-2">
-                      <p className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider mb-1">Selectable Gift</p>
-                      <p className="text-xs text-emerald-900 font-medium">Gift selected at checkout</p>
+                    <div className="bg-secondary/25 border border-secondary/70 rounded-lg p-2">
+                      <p className="text-[9px] font-bold text-primary-dark uppercase tracking-wider mb-1">Selectable Gift</p>
+                      <p className="text-xs text-primary-dark font-medium">Gift selected at checkout</p>
                     </div>
                   )}
                 </div>
@@ -100,8 +111,10 @@ const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
 };
 
 const OrderHistory: React.FC = () => {
+  const { user } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
 
   const getTimelineEvents = (order: Order) => {
@@ -111,26 +124,40 @@ const OrderHistory: React.FC = () => {
       { status: 'shipped', label: 'Shipped', description: 'Your package is on its way to you.' },
       { status: 'delivered', label: 'Delivered', description: 'Package has been successfully delivered.' },
     ];
-    
+
     const currentIdx = getStatusStep(order.status);
     return events.slice(0, currentIdx + 1).reverse();
   };
 
   useEffect(() => {
-    if (!authStore.currentUser) return;
-    dataService.getOrders(authStore.currentUser.uid)
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    setError(null);
+    setLoading(true);
+    dataService.getOrders(user.uid)
       .then(setOrders)
-      .catch(e => handleDataError(e, OperationType.LIST, 'orders'))
+      .catch((nextError) => {
+        const normalized = handleDataError(nextError, OperationType.LIST, 'orders');
+        setError(normalized.message || 'Failed to load orders.');
+      })
       .finally(() => setLoading(false));
-  }, []);
+  }, [user]);
 
   const getStatusIcon = (status: Order['status']) => {
     switch (status) {
-      case 'pending': return <Clock className="w-5 h-5 text-amber-500" />;
-      case 'processing': return <Package className="w-5 h-5 text-blue-500" />;
-      case 'shipped': return <Truck className="w-5 h-5 text-indigo-500" />;
-      case 'delivered': return <CheckCircle className="w-5 h-5 text-emerald-500" />;
-      case 'cancelled': return <XCircle className="w-5 h-5 text-rose-500" />;
+      case 'pending':
+        return <Clock className="w-5 h-5 text-amber-500" />;
+      case 'processing':
+        return <Package className="w-5 h-5 text-blue-500" />;
+      case 'shipped':
+        return <Truck className="w-5 h-5 text-indigo-500" />;
+      case 'delivered':
+        return <CheckCircle className="w-5 h-5 text-primary" />;
+      case 'cancelled':
+        return <XCircle className="w-5 h-5 text-rose-500" />;
     }
   };
 
@@ -140,20 +167,36 @@ const OrderHistory: React.FC = () => {
   };
 
   const simulateNextStep = async (order: Order) => {
+    if (!user) return;
+
     const steps: Order['status'][] = ['pending', 'processing', 'shipped', 'delivered'];
     const currentIndex = steps.indexOf(order.status);
-    if (currentIndex >= steps.length - 1 || order.status === 'cancelled') return;
+
+    if (currentIndex >= steps.length - 1 || order.status === 'cancelled') {
+      return;
+    }
+
     const nextStatus = steps[currentIndex + 1];
-    if (!authStore.currentUser) return;
+
     try {
-      const updated = await dataService.updateOrderStatus(authStore.currentUser.uid, order.id, nextStatus);
+      setError(null);
+      const updated = await dataService.updateOrderStatus(user.uid, order.id, nextStatus);
       setOrders(updated);
-    } catch (error) {
-      handleDataError(error, OperationType.UPDATE, `orders/${order.id}`);
+    } catch (nextError) {
+      const normalized = handleDataError(nextError, OperationType.UPDATE, `orders/${order.id}`);
+      setError(normalized.message || 'Failed to update order status.');
     }
   };
 
   if (loading) return <div className="p-8 text-center text-zinc-500">Loading orders...</div>;
+
+  if (error) {
+    return (
+      <div className="p-6 bg-rose-50 rounded-2xl border border-rose-100 text-rose-600 text-sm font-medium">
+        {error}
+      </div>
+    );
+  }
 
   if (orders.length === 0) {
     return (
@@ -173,7 +216,7 @@ const OrderHistory: React.FC = () => {
 
         return (
           <div key={order.id} className="bg-white rounded-2xl border border-zinc-100 shadow-sm hover:shadow-md transition-all overflow-hidden">
-            <div 
+            <div
               className="p-6 cursor-pointer"
               onClick={() => setExpandedOrderId(isExpanded ? null : order.id)}
             >
@@ -195,12 +238,12 @@ const OrderHistory: React.FC = () => {
                   {isExpanded ? <ChevronUp className="w-5 h-5 text-zinc-400" /> : <ChevronDown className="w-5 h-5 text-zinc-400" />}
                 </div>
               </div>
-              
+
               <div className="flex justify-between items-center text-sm">
                 <div className="text-zinc-500">
-                  {order.items?.length || 0} items • {new Intl.NumberFormat('en-US', { style: 'currency', currency: order.currency || 'USD' }).format(order.totalAmount)}
+                  {order.items?.length || 0} items - {new Intl.NumberFormat('en-US', { style: 'currency', currency: order.currency || 'USD' }).format(order.totalAmount)}
                 </div>
-                <div className="text-emerald-600 font-medium flex items-center gap-1">
+                <div className="text-primary font-medium flex items-center gap-1">
                   <Activity className="w-4 h-4" />
                   Real-time Tracking Active
                 </div>
@@ -209,18 +252,17 @@ const OrderHistory: React.FC = () => {
 
             <AnimatePresence>
               {isExpanded && (
-                <motion.div 
+                <motion.div
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
                   className="border-t border-zinc-50 bg-zinc-50/30"
                 >
                   <div className="p-6 space-y-8">
-                    {/* Real-time Stepper */}
                     <div className="relative">
                       <div className="absolute top-5 left-0 w-full h-0.5 bg-zinc-200" />
-                      <div 
-                        className="absolute top-5 left-0 h-0.5 bg-emerald-500 transition-all duration-500" 
+                      <div
+                        className="absolute top-5 left-0 h-0.5 bg-primary transition-all duration-500"
                         style={{ width: `${(currentStep / 3) * 100}%` }}
                       />
                       <div className="relative flex justify-between">
@@ -230,11 +272,11 @@ const OrderHistory: React.FC = () => {
                           return (
                             <div key={label} className="flex flex-col items-center gap-2">
                               <div className={`w-10 h-10 rounded-full flex items-center justify-center z-10 transition-colors duration-500 ${
-                                isCompleted ? 'bg-emerald-500 text-white' : 'bg-white border-2 border-zinc-200 text-zinc-400'
-                              } ${isCurrent ? 'ring-4 ring-emerald-100' : ''}`}>
+                                isCompleted ? 'bg-primary text-white' : 'bg-white border-2 border-zinc-200 text-zinc-400'
+                              } ${isCurrent ? 'ring-4 ring-secondary/60' : ''}`}>
                                 {isCompleted ? <CheckCircle className="w-5 h-5" /> : <Clock className="w-5 h-5" />}
                               </div>
-                              <span className={`text-[10px] font-bold uppercase tracking-wider ${isCompleted ? 'text-emerald-600' : 'text-zinc-400'}`}>
+                              <span className={`text-[10px] font-bold uppercase tracking-wider ${isCompleted ? 'text-primary' : 'text-zinc-400'}`}>
                                 {label}
                               </span>
                             </div>
@@ -244,7 +286,6 @@ const OrderHistory: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Items List */}
                       <div className="space-y-4">
                         <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Order Items</h4>
                         <div className="space-y-3">
@@ -254,7 +295,6 @@ const OrderHistory: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Tracking Info & Timeline */}
                       <div className="space-y-6">
                         <div className="space-y-4">
                           <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Tracking Details</h4>
@@ -266,17 +306,17 @@ const OrderHistory: React.FC = () => {
                               </div>
                               <div className="text-right">
                                 <p className="text-[10px] font-bold text-zinc-400 uppercase">Carrier</p>
-                                <p className="text-sm font-bold text-emerald-600">{order.carrier || 'Pet Shop Express'}</p>
+                                <p className="text-sm font-bold text-primary">{order.carrier || 'Pet Shop Express'}</p>
                               </div>
                             </div>
-                            
+
                             <div className="space-y-4">
                               {getTimelineEvents(order).map((event, idx) => (
                                 <div key={event.status} className="flex gap-4 relative">
                                   {idx !== getTimelineEvents(order).length - 1 && (
                                     <div className="absolute left-2 top-6 w-0.5 h-full bg-zinc-100" />
                                   )}
-                                  <div className={`w-4 h-4 rounded-full mt-1 flex-shrink-0 ${idx === 0 ? 'bg-emerald-500 ring-4 ring-emerald-100' : 'bg-zinc-200'}`} />
+                                  <div className={`w-4 h-4 rounded-full mt-1 flex-shrink-0 ${idx === 0 ? 'bg-primary ring-4 ring-secondary/60' : 'bg-zinc-200'}`} />
                                   <div>
                                     <p className={`text-xs font-bold ${idx === 0 ? 'text-zinc-900' : 'text-zinc-500'}`}>{event.label}</p>
                                     <p className="text-[10px] text-zinc-400 leading-relaxed">{event.description}</p>
@@ -286,12 +326,11 @@ const OrderHistory: React.FC = () => {
                             </div>
                           </div>
                         </div>
-                        
-                        {/* Simulation Button (Demo Only) */}
+
                         {order.status !== 'delivered' && order.status !== 'cancelled' && (
-                          <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
+                          <button
+                            onClick={(event) => {
+                              event.stopPropagation();
                               simulateNextStep(order);
                             }}
                             className="w-full py-3 bg-zinc-900 text-white rounded-2xl text-xs font-bold hover:bg-zinc-800 transition-all flex items-center justify-center gap-2 shadow-lg shadow-zinc-200"

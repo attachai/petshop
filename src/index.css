@@ -1,17 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Prompt", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Prompt", sans-serif;
-  --color-primary: #0097a7;
-  --color-primary-dark: #00796b;
-  --color-accent: #ff9800;
+  --color-primary: #00A8E2;
+  --color-primary-dark: #0C86B8;
+  --color-secondary: #A2DCF2;
 }
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 font-sans antialiased;
+    @apply bg-[#f5fbfe] text-slate-900 font-sans antialiased;
   }
 }
 
@@ -22,3 +22,4 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+

@@ -1,6 +1,7 @@
 import { USERS } from '../data';
+import { isLocalProvider } from '../config/runtime';
 
-export const IS_LOCAL = (import.meta.env.VITE_AUTH_PROVIDER as string) !== 'go-api';
+export const IS_LOCAL = isLocalProvider;
 
 // ── Mock timestamp helper for app-facing order dates ─────────────────────
 export const mockTs = (ms: number) => ({

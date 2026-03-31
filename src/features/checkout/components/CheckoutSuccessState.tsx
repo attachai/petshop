@@ -1,4 +1,4 @@
-import { CheckCircle2, Package } from 'lucide-react';
+﻿import { CheckCircle2, Package } from 'lucide-react';
 
 interface CheckoutSuccessStateProps {
   orderNumber: string | null;
@@ -10,8 +10,8 @@ export const CheckoutSuccessState = ({ orderNumber, onViewOrderStatus, onBackHom
   return (
     <div className="min-h-screen pt-32 pb-20 px-4">
       <div className="max-w-md mx-auto bg-white rounded-[2.5rem] p-10 text-center shadow-xl border border-slate-100">
-        <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle2 size={40} className="text-emerald-600" />
+        <div className="w-20 h-20 bg-secondary/55 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle2 size={40} className="text-primary" />
         </div>
         <h2 className="text-3xl font-display font-bold text-slate-900 mb-2">Order placed successfully!</h2>
         {orderNumber && <p className="text-xs font-mono text-slate-400 mb-4">Reference #{orderNumber}</p>}
@@ -21,7 +21,7 @@ export const CheckoutSuccessState = ({ orderNumber, onViewOrderStatus, onBackHom
         <div className="space-y-3">
           <button
             onClick={onViewOrderStatus}
-            className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-bold hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-primary text-white py-4 rounded-2xl font-bold hover:bg-primary-dark transition-colors flex items-center justify-center gap-2"
           >
             <Package size={18} />
             View order status
@@ -37,3 +37,4 @@ export const CheckoutSuccessState = ({ orderNumber, onViewOrderStatus, onBackHom
     </div>
   );
 };
+

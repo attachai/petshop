@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+﻿import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, ShoppingCart, Star, Gift } from 'lucide-react';
@@ -62,7 +62,7 @@ export const ProductCard = React.memo(({
         {badgeText && (
           <div className={`absolute top-2 left-2 z-10 px-2 py-0.5 rounded-full text-[11px] font-bold text-white shadow-sm flex items-center gap-1 ${
             badgeText.toUpperCase() === 'SALE' ? 'bg-rose-500' :
-            badgeText.toUpperCase() === 'FREE GIFT' ? 'bg-emerald-500' :
+            badgeText.toUpperCase() === 'FREE GIFT' ? 'bg-primary' :
             'bg-slate-900'
           }`}>
             {badgeText.toUpperCase() === 'FREE GIFT' && <Gift size={10} />}
@@ -82,19 +82,19 @@ export const ProductCard = React.memo(({
           referrerPolicy="no-referrer"
         />
 
-        {/* Hover Overlay — non-touch devices only */}
+        {/* Hover Overlay â€” non-touch devices only */}
         {!isTouch && <div className="absolute inset-0 bg-slate-900/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-between py-4 px-3">
-          {/* Quick View — center */}
+          {/* Quick View â€” center */}
           <div className="flex-1 flex items-center justify-center">
             <button
               onClick={handleQuickView}
-              className="bg-emerald-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-emerald-600"
+              className="bg-primary text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 hover:bg-primary"
             >
               Quick View
             </button>
           </div>
 
-          {/* Quantity + Add to Cart — bottom */}
+          {/* Quantity + Add to Cart â€” bottom */}
           <div
             className="w-full flex items-center gap-2 translate-y-4 group-hover:translate-y-0 transition-all duration-300"
             onClick={(e) => e.stopPropagation()}
@@ -104,7 +104,7 @@ export const ProductCard = React.memo(({
                 onClick={(e: React.MouseEvent) => { e.stopPropagation(); setQuantity((q: number) => Math.max(1, q - 1)); }}
                 className="px-3 py-2 text-slate-700 hover:bg-slate-100 transition-colors font-bold text-base leading-none"
               >
-                −
+                âˆ’
               </button>
               <span className="px-3 py-2 text-sm font-bold text-slate-900 min-w-[2rem] text-center">{quantity}</span>
               <button
@@ -124,7 +124,7 @@ export const ProductCard = React.memo(({
           </div>
         </div>}
 
-        {/* Add to Cart — touch devices (mobile + tablet) */}
+        {/* Add to Cart â€” touch devices (mobile + tablet) */}
         {isTouch && (
           <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-slate-900/60 to-transparent">
             <button
@@ -147,10 +147,10 @@ export const ProductCard = React.memo(({
           <span className="text-[13px] text-slate-400">({product.reviews})</span>
         </div>
 
-        <h3 className="font-display font-bold text-[15px] text-slate-900 leading-tight cursor-pointer hover:text-emerald-600 transition-colors mb-1" onClick={handleCardClick}>
+        <h3 className="font-display font-bold text-[15px] text-slate-900 leading-tight cursor-pointer hover:text-primary transition-colors mb-1" onClick={handleCardClick}>
           {product.name}
         </h3>
-        <p className="text-xs font-medium text-cyan-600 mb-2.5">{product.category}</p>
+        <p className="text-xs font-medium text-primary mb-2.5">{product.category}</p>
 
         <div className="flex items-center justify-between mt-auto mb-2.5">
           <div className="flex items-center gap-2">
@@ -164,7 +164,7 @@ export const ProductCard = React.memo(({
           {product.reviewsList && product.reviewsList.length > 0 && (
             <button
               onClick={() => setShowReviews(!showReviews)}
-              className="text-[13px] font-bold text-emerald-600 hover:text-emerald-700 transition-colors"
+              className="text-[13px] font-bold text-primary hover:text-primary-dark transition-colors"
             >
               {showReviews ? 'Hide Reviews' : 'Show Reviews'}
             </button>
@@ -208,3 +208,5 @@ export const ProductCard = React.memo(({
 });
 
 ProductCard.displayName = 'ProductCard';
+
+

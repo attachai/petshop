@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter, Star, X, CheckCircle2 } from 'lucide-react';
 import { CATEGORIES } from '../data';
@@ -40,7 +40,7 @@ export const FilterDrawer = ({
           >
             <div className="p-6 border-b border-slate-100 flex items-center justify-between">
               <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <Filter size={20} className="text-emerald-600" />
+                <Filter size={20} className="text-primary" />
                 Filters
               </h2>
               <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="Close filters">
@@ -56,8 +56,8 @@ export const FilterDrawer = ({
                     <label key={category} className="flex items-center gap-3 cursor-pointer group">
                       <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${
                         activeCategory === category 
-                          ? 'bg-emerald-500 border-emerald-500' 
-                          : 'border-slate-300 group-hover:border-emerald-400'
+                          ? 'bg-primary border-primary' 
+                          : 'border-slate-300 group-hover:border-primary/45'
                       }`}>
                         {activeCategory === category && <CheckCircle2 size={14} className="text-white" />}
                       </div>
@@ -86,10 +86,10 @@ export const FilterDrawer = ({
                     <label key={rating} className="flex items-center gap-3 cursor-pointer group">
                       <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
                         minRating === rating 
-                          ? 'border-emerald-500' 
-                          : 'border-slate-300 group-hover:border-emerald-400'
+                          ? 'border-primary' 
+                          : 'border-slate-300 group-hover:border-primary/45'
                       }`}>
-                        {minRating === rating && <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />}
+                        {minRating === rating && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
                       </div>
                       <input 
                         type="radio" 
@@ -124,7 +124,7 @@ export const FilterDrawer = ({
               </button>
               <button 
                 onClick={onClose}
-                className="flex-[2] bg-emerald-600 text-white py-3 rounded-xl font-bold shadow-md shadow-emerald-200 hover:bg-emerald-700 transition-colors"
+                className="flex-[2] bg-primary text-white py-3 rounded-xl font-bold shadow-md shadow-secondary/70 hover:bg-primary-dark transition-colors"
               >
                 Apply Filters
               </button>
@@ -135,3 +135,5 @@ export const FilterDrawer = ({
     </AnimatePresence>
   );
 };
+
+

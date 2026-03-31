@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { 
   User, 
@@ -51,7 +51,7 @@ const ProfilePage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-slate-200 border-t-emerald-600 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-slate-200 border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -94,7 +94,7 @@ const ProfilePage: React.FC = () => {
                       required
                       type="text"
                       placeholder="John"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                       value={firstName}
                       onChange={e => setFirstName(e.target.value)}
                     />
@@ -108,7 +108,7 @@ const ProfilePage: React.FC = () => {
                       required
                       type="text"
                       placeholder="Doe"
-                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                      className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                       value={lastName}
                       onChange={e => setLastName(e.target.value)}
                     />
@@ -125,7 +125,7 @@ const ProfilePage: React.FC = () => {
                   required
                   type="email"
                   placeholder="name@example.com"
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                 />
@@ -139,8 +139,8 @@ const ProfilePage: React.FC = () => {
                 <input 
                   required
                   type="password"
-                  placeholder="••••••••"
-                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                  placeholder="........"
+                  className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                 />
@@ -168,7 +168,7 @@ const ProfilePage: React.FC = () => {
             {authMode === 'login' ? "Don't have an account?" : "Already have an account?"}{' '}
             <button 
               onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
-              className="text-emerald-600 font-bold hover:underline"
+              className="text-primary font-bold hover:underline"
             >
               {authMode === 'login' ? 'Register now' : 'Sign in'}
             </button>
@@ -202,7 +202,7 @@ const ProfilePage: React.FC = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center justify-between px-5 py-4 rounded-2xl font-bold transition-all group mb-1 last:mb-0 ${
                   activeTab === tab.id 
-                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-200' 
+                    ? 'bg-primary text-white shadow-lg shadow-secondary/70' 
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
                 }`}
               >
@@ -233,7 +233,7 @@ const ProfilePage: React.FC = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-shrink-0 flex items-center gap-2 px-5 py-3 rounded-full font-bold transition-all ${
                   activeTab === tab.id 
-                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-100' 
+                    ? 'bg-primary text-white shadow-md shadow-secondary/55' 
                     : 'bg-white text-slate-500 border border-slate-100'
                 }`}
               >
@@ -258,8 +258,8 @@ const ProfilePage: React.FC = () => {
                 {activeTab === 'orders' && (
                   <div className="space-y-8">
                     <div className="flex items-center gap-4">
-                      <div className="p-4 bg-emerald-50 rounded-2xl">
-                        <History className="w-8 h-8 text-emerald-600" />
+                      <div className="p-4 bg-secondary/25 rounded-2xl">
+                        <History className="w-8 h-8 text-primary" />
                       </div>
                       <div>
                         <h2 className="text-2xl font-display font-bold text-slate-900">Order History</h2>
@@ -273,8 +273,8 @@ const ProfilePage: React.FC = () => {
                 {activeTab === 'addresses' && (
                   <div className="space-y-8">
                     <div className="flex items-center gap-4">
-                      <div className="p-4 bg-emerald-50 rounded-2xl">
-                        <MapPin className="w-8 h-8 text-emerald-600" />
+                      <div className="p-4 bg-secondary/25 rounded-2xl">
+                        <MapPin className="w-8 h-8 text-primary" />
                       </div>
                       <div>
                         <h2 className="text-2xl font-display font-bold text-slate-900">Saved Addresses</h2>
@@ -288,8 +288,8 @@ const ProfilePage: React.FC = () => {
                 {activeTab === 'settings' && (
                   <div className="space-y-8">
                     <div className="flex items-center gap-4">
-                      <div className="p-4 bg-emerald-50 rounded-2xl">
-                        <Settings className="w-8 h-8 text-emerald-600" />
+                      <div className="p-4 bg-secondary/25 rounded-2xl">
+                        <Settings className="w-8 h-8 text-primary" />
                       </div>
                       <div>
                         <h2 className="text-2xl font-display font-bold text-slate-900">Account Settings</h2>
@@ -309,3 +309,4 @@ const ProfilePage: React.FC = () => {
 };
 
 export default ProfilePage;
+

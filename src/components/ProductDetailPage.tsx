@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+﻿import React, { useState, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, ArrowRight, CheckCircle2, ChevronDown, Facebook, Heart, Minus, Plus, Share2, ShoppingCart, Star, Twitter } from 'lucide-react';
@@ -41,7 +41,7 @@ export const ProductDetailPage = ({
     return (
       <div className="min-h-screen pt-32 pb-20 px-4 text-center">
         <h2 className="text-2xl font-bold text-slate-900 mb-4">Product not found</h2>
-        <button onClick={() => navigate('/')} className="text-emerald-600 font-bold hover:underline">Back to Home</button>
+        <button onClick={() => navigate('/')} className="text-primary font-bold hover:underline">Back to Home</button>
       </div>
     );
   }
@@ -115,7 +115,7 @@ export const ProductDetailPage = ({
                     <button 
                       key={idx}
                       onClick={() => setActiveImage(idx)}
-                      className={`w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${activeImage === idx ? 'border-emerald-500 p-1' : 'border-transparent'}`}
+                      className={`w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 border-2 transition-all ${activeImage === idx ? 'border-primary p-1' : 'border-transparent'}`}
                     >
                       <img src={img} alt="" className="w-full h-full object-cover rounded-xl" />
                     </button>
@@ -127,7 +127,7 @@ export const ProductDetailPage = ({
             {/* Product Info */}
             <div className="flex flex-col justify-center">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full">
+                <span className="text-xs font-bold text-primary uppercase tracking-widest bg-secondary/25 px-3 py-1 rounded-full">
                   {product.category}
                 </span>
                 <div className="flex items-center gap-1 text-amber-400 bg-amber-50 px-3 py-1 rounded-full">
@@ -157,13 +157,13 @@ export const ProductDetailPage = ({
 
               {/* Free Gift Banner */}
               {(product.freeGift || product.selectableGifts) && (
-                <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 mb-10 flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl">🎁</span>
+                <div className="bg-secondary/25 border border-secondary/70 rounded-2xl p-4 mb-10 flex items-center gap-4">
+                  <div className="w-12 h-12 bg-secondary/55 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl">ðŸŽ</span>
                   </div>
                   <div>
-                    <h4 className="font-bold text-emerald-900">Free Gift Included!</h4>
-                    <p className="text-sm text-emerald-700">
+                    <h4 className="font-bold text-primary-dark">Free Gift Included!</h4>
+                    <p className="text-sm text-primary-dark">
                       {product.freeGift ? `Includes ${product.freeGift.name}` : 'Choose a free gift when you add to cart'}
                     </p>
                   </div>
@@ -189,7 +189,7 @@ export const ProductDetailPage = ({
                 
                 <button 
                   onClick={() => onAddToCart(product, quantity)}
-                  className="flex-1 bg-emerald-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-emerald-200 hover:bg-emerald-700 transition-all flex items-center justify-center gap-3 text-lg"
+                  className="flex-1 bg-primary text-white py-4 rounded-2xl font-bold shadow-xl shadow-secondary/70 hover:bg-primary-dark transition-all flex items-center justify-center gap-3 text-lg"
                 >
                   <ShoppingCart size={24} />
                   Add to Cart
@@ -198,11 +198,11 @@ export const ProductDetailPage = ({
 
               <div className="flex items-center gap-6 pt-8 border-t border-slate-100">
                 <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <CheckCircle2 size={18} className="text-primary" />
                   In Stock
                 </div>
                 <div className="flex items-center gap-2 text-sm font-medium text-slate-500">
-                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <CheckCircle2 size={18} className="text-primary" />
                   Free Shipping
                 </div>
                 
@@ -226,7 +226,7 @@ export const ProductDetailPage = ({
                         <button className="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 transition-colors">
                           <Facebook size={18} />
                         </button>
-                        <button className="w-10 h-10 rounded-lg bg-sky-50 text-sky-500 flex items-center justify-center hover:bg-sky-100 transition-colors">
+                        <button className="w-10 h-10 rounded-lg bg-secondary/25 text-primary flex items-center justify-center hover:bg-secondary/45 transition-colors">
                           <Twitter size={18} />
                         </button>
                       </motion.div>
@@ -293,7 +293,7 @@ export const ProductDetailPage = ({
                         required
                         value={reviewForm.name}
                         onChange={e => setReviewForm({...reviewForm, name: e.target.value})}
-                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all"
+                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                         placeholder="John Doe"
                       />
                     </div>
@@ -303,7 +303,7 @@ export const ProductDetailPage = ({
                         required
                         value={reviewForm.comment}
                         onChange={e => setReviewForm({...reviewForm, comment: e.target.value})}
-                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 transition-all h-32 resize-none"
+                        className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all h-32 resize-none"
                         placeholder="What did you like or dislike?"
                       />
                     </div>
@@ -318,7 +318,7 @@ export const ProductDetailPage = ({
                     </button>
                     <button 
                       type="submit"
-                      className="px-8 py-3 bg-emerald-600 text-white rounded-xl font-bold shadow-md shadow-emerald-200 hover:bg-emerald-700 transition-colors"
+                      className="px-8 py-3 bg-primary text-white rounded-xl font-bold shadow-md shadow-secondary/70 hover:bg-primary-dark transition-colors"
                     >
                       Submit Review
                     </button>
@@ -334,7 +334,7 @@ export const ProductDetailPage = ({
                 <div key={review.id} className="border-b border-slate-100 pb-8 last:border-0 last:pb-0">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold text-sm">
+                      <div className="w-10 h-10 bg-secondary/55 text-primary-dark rounded-full flex items-center justify-center font-bold text-sm">
                         {review.userName.charAt(0)}
                       </div>
                       <div>
@@ -364,7 +364,7 @@ export const ProductDetailPage = ({
               <h2 className="text-3xl font-display font-bold text-slate-900">You Might Also Like</h2>
               <button 
                 onClick={() => navigate('/collection')}
-                className="text-emerald-600 font-bold hover:underline flex items-center gap-1"
+                className="text-primary font-bold hover:underline flex items-center gap-1"
               >
                 View All <ArrowRight size={16} />
               </button>
@@ -406,3 +406,4 @@ export const ProductDetailPage = ({
     </div>
   );
 };
+

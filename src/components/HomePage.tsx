@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'motion/react';
+﻿import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, ChevronDown, Filter, Search, X } from 'lucide-react';
 
 import { HeroCarousel } from './HeroCarousel';
@@ -94,7 +94,7 @@ export const HomePage = ({
                   onSearchQueryChange(event.target.value);
                   onSearchFocusChange(true);
                 }}
-                className="w-full pl-12 pr-4 py-3 bg-white border border-slate-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-slate-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                 aria-label="Search products"
               />
               {isSearchFocused && (
@@ -137,12 +137,12 @@ export const HomePage = ({
                                   <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                  <h4 className="text-sm font-semibold text-slate-900 truncate group-hover:text-emerald-600 transition-colors">
+                                  <h4 className="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">
                                     {product.name}
                                   </h4>
                                   <p className="text-xs text-slate-500">${product.price.toFixed(2)}</p>
                                 </div>
-                                <ArrowRight size={14} className="text-slate-300 group-hover:text-emerald-500 transition-colors" />
+                                <ArrowRight size={14} className="text-slate-300 group-hover:text-primary transition-colors" />
                               </button>
                             ))
                           ) : (
@@ -210,7 +210,7 @@ export const HomePage = ({
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <h4 className="text-[11px] font-bold text-slate-900 truncate">{product.name}</h4>
-                                      <p className="text-[10px] text-emerald-600 font-bold">${product.price.toFixed(2)}</p>
+                                      <p className="text-[10px] text-primary font-bold">${product.price.toFixed(2)}</p>
                                     </div>
                                   </button>
                                 ))}
@@ -235,7 +235,7 @@ export const HomePage = ({
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <h4 className="text-[11px] font-bold text-slate-900 truncate">{product.name}</h4>
-                                      <p className="text-[10px] text-emerald-600 font-bold">${product.price.toFixed(2)}</p>
+                                      <p className="text-[10px] text-primary font-bold">${product.price.toFixed(2)}</p>
                                     </div>
                                   </button>
                                 ))}
@@ -250,7 +250,7 @@ export const HomePage = ({
                       <div className="p-3 bg-slate-50 border-t border-slate-100 text-center">
                         <button
                           onClick={() => onSearchFocusChange(false)}
-                          className="text-xs font-bold text-slate-600 hover:text-emerald-600"
+                          className="text-xs font-bold text-slate-600 hover:text-primary"
                           aria-label="View all results"
                         >
                           View all results
@@ -268,7 +268,7 @@ export const HomePage = ({
               <select
                 value={sortBy}
                 onChange={(event) => onSortChange(event.target.value)}
-                className="appearance-none bg-white border border-slate-100 rounded-full px-6 py-2.5 pr-10 text-sm font-semibold text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer transition-all"
+                className="appearance-none bg-white border border-slate-100 rounded-full px-6 py-2.5 pr-10 text-sm font-semibold text-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary cursor-pointer transition-all"
                 aria-label="Sort products"
               >
                 <option value="featured">Featured</option>
@@ -285,7 +285,7 @@ export const HomePage = ({
               onClick={onOpenFilters}
               className={`flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold transition-all border ${
                 minRating > 0 || activeCategory !== 'All'
-                  ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                  ? 'bg-secondary/25 text-primary border-secondary/70'
                   : 'bg-white text-slate-600 border-slate-100 hover:bg-slate-50'
               }`}
               aria-label="Open filters"
@@ -293,7 +293,7 @@ export const HomePage = ({
               <Filter size={16} />
               Filters
               {(minRating > 0 || activeCategory !== 'All') && (
-                <span className="w-5 h-5 bg-emerald-600 text-white text-[10px] rounded-full flex items-center justify-center">
+                <span className="w-5 h-5 bg-primary text-white text-[10px] rounded-full flex items-center justify-center">
                   {(minRating > 0 ? 1 : 0) + (activeCategory !== 'All' ? 1 : 0)}
                 </span>
               )}
@@ -329,7 +329,7 @@ export const HomePage = ({
             </p>
             <button
               onClick={onClearFilters}
-              className="mt-6 text-emerald-600 font-semibold hover:underline"
+              className="mt-6 text-primary font-semibold hover:underline"
               aria-label="Clear all filters"
             >
               Clear all filters
@@ -340,3 +340,4 @@ export const HomePage = ({
     </>
   );
 };
+
