@@ -1,7 +1,7 @@
 ﻿import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, Heart, Minus, Plus, ShoppingCart, Star, X } from 'lucide-react';
+import { CheckCircle2, Gift, Heart, Minus, Plus, ShoppingCart, Star, X } from 'lucide-react';
 import { Product, FreeGift } from '../types';
 
 export const QuickViewModal: React.FC<{ 
@@ -138,7 +138,9 @@ export const QuickViewModal: React.FC<{
             {product.selectableGifts && (
               <div className="mb-8">
                 <h4 className="font-bold text-slate-900 mb-3 flex items-center gap-2">
-                  <span className="bg-secondary/55 text-primary-dark w-6 h-6 rounded-full flex items-center justify-center text-xs">ðŸŽ</span>
+                  <span className="bg-secondary/55 text-primary-dark w-6 h-6 rounded-full flex items-center justify-center">
+                    <Gift size={14} />
+                  </span>
                   Select Your Free Gift
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

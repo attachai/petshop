@@ -1,7 +1,7 @@
 ﻿import React, { useState, FormEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ArrowRight, CheckCircle2, ChevronDown, Facebook, Heart, Minus, Plus, Share2, ShoppingCart, Star, Twitter } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, ChevronDown, Facebook, Gift, Heart, Minus, Plus, Share2, ShoppingCart, Star, Twitter } from 'lucide-react';
 import { Product, Review } from '../types';
 
 export const ProductDetailPage = ({ 
@@ -159,7 +159,7 @@ export const ProductDetailPage = ({
               {(product.freeGift || product.selectableGifts) && (
                 <div className="bg-secondary/25 border border-secondary/70 rounded-2xl p-4 mb-10 flex items-center gap-4">
                   <div className="w-12 h-12 bg-secondary/55 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl">ðŸŽ</span>
+                    <Gift size={24} className="text-primary-dark" />
                   </div>
                   <div>
                     <h4 className="font-bold text-primary-dark">Free Gift Included!</h4>
