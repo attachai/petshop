@@ -2,6 +2,7 @@
 import { CheckCircle2, Clock, CreditCard, MapPin, Phone } from 'lucide-react';
 
 import { DeliveryMethod, DeliveryType, PaymentMethod, PickupBranch, ShippingService, AddressForm } from '../types';
+import { formatCurrency } from '../../../utils/currency';
 
 interface ReviewStepProps {
   deliveryMethod: DeliveryMethod;
@@ -160,7 +161,7 @@ export const ReviewStep = ({
           ) : (
             <>
               <CheckCircle2 size={20} />
-              Confirm & Pay ${total.toFixed(2)}
+              Confirm & Pay {formatCurrency(total)}
             </>
           )}
         </button>
@@ -168,5 +169,7 @@ export const ReviewStep = ({
     </motion.div>
   );
 };
+
+
 
 

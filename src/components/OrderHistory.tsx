@@ -13,6 +13,7 @@ import {
 
 import { useAuth } from '../contexts/AuthContext';
 import { dataService, handleDataError, OperationType, Order, OrderItem } from '../services/dataService';
+import { formatCurrency } from '../utils/currency';
 
 const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
   const [showGift, setShowGift] = useState(false);
@@ -54,14 +55,14 @@ const OrderItemRow: React.FC<{ item: OrderItem }> = ({ item }) => {
             <span className="text-zinc-700 font-medium">{item.name}</span>
             {item.originalPrice && (
               <div className="flex items-center gap-1 text-xs">
-                <span className="text-rose-500 font-bold">${item.price.toFixed(2)}</span>
-                <span className="text-zinc-400 line-through">${item.originalPrice.toFixed(2)}</span>
+                <span className="text-rose-500 font-bold">{formatCurrency(item.price)}</span>
+                <span className="text-zinc-400 line-through">{formatCurrency(item.originalPrice)}</span>
               </div>
             )}
           </div>
         </div>
         {!item.originalPrice && (
-          <span className="text-zinc-900 font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+          <span className="text-zinc-900 font-semibold">{formatCurrency(item.price * item.quantity)}</span>
         )}
       </div>
 
@@ -241,7 +242,7 @@ const OrderHistory: React.FC = () => {
 
               <div className="flex justify-between items-center text-sm">
                 <div className="text-zinc-500">
-                  {order.items?.length || 0} items - {new Intl.NumberFormat('en-US', { style: 'currency', currency: order.currency || 'USD' }).format(order.totalAmount)}
+                  {order.items?.length || 0} items - {formatCurrency(order.totalAmount)}
                 </div>
                 <div className="text-primary font-medium flex items-center gap-1">
                   <Activity className="w-4 h-4" />

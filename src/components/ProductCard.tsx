@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, ShoppingCart, Star, Gift } from 'lucide-react';
 import { Product } from '../types';
+import { formatCurrency } from '../utils/currency';
 
 interface ProductCardProps {
   product: Product;
@@ -157,10 +158,10 @@ export const ProductCard = React.memo(({
         <div className="flex items-center justify-between mt-auto mb-2.5">
           <div className="flex items-center gap-2">
             <p className={`font-bold text-[15px] ${product.originalPrice ? 'text-rose-600' : 'text-slate-900'}`}>
-              ${product.price.toFixed(2)}
+              {formatCurrency(product.price)}
             </p>
             {product.originalPrice && (
-              <p className="text-[13px] text-slate-400 line-through">${product.originalPrice.toFixed(2)}</p>
+              <p className="text-[13px] text-slate-400 line-through">{formatCurrency(product.originalPrice)}</p>
             )}
           </div>
           {product.reviewsList && product.reviewsList.length > 0 && (

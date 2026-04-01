@@ -4,6 +4,7 @@ import { Award, ShoppingBag, X, ChevronDown, ChevronUp } from 'lucide-react';
 import { CartItem } from '../types';
 import { calculateCartSubtotal, calculateCartTotal, calculatePointsDiscount, calculatePointsEarned } from '../features/shop/cartUtils';
 import { useAuth } from '../contexts/AuthContext';
+import { formatCurrency } from '../utils/currency';
 
 const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delta: number) => void, removeItem: (id: number) => void }> = ({ item, updateQuantity, removeItem }) => {
   const [showGift, setShowGift] = useState(false);
@@ -38,10 +39,10 @@ const CartItemCard: React.FC<{ item: CartItem, updateQuantity: (id: number, delt
             ) : (
               <>
                 <span className={item.originalPrice ? 'text-rose-500 font-bold' : 'text-slate-900 font-bold'}>
-                  ${item.price.toFixed(2)}
+                  {formatCurrency(item.price)}
                 </span>
                 {item.originalPrice && (
-                  <span className="text-xs text-slate-400 line-through">${item.originalPrice.toFixed(2)}</span>
+                  <span className="text-xs text-slate-400 line-through">{formatCurrency(item.originalPrice)}</span>
                 )}
               </>
             )}
@@ -235,7 +236,7 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                     </div>
                     {redeemPoints > 0 && (
                       <p className="text-[10px] text-primary font-bold">
-                        -${discount.toFixed(2)} discount applied
+                        {formatCurrency(-discount)} discount applied
                       </p>
                     )}
                   </div>
@@ -244,17 +245,17 @@ export const CartDrawer = ({ isOpen, onClose, cart, updateQuantity, removeItem, 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-slate-500">Subtotal</span>
-                    <span className="font-bold text-slate-900">${subtotal.toFixed(2)}</span>
+                    <span className="font-bold text-slate-900">{formatCurrency(subtotal)}</span>
                   </div>
                   {redeemPoints > 0 && (
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-primary font-medium">Discount (Points)</span>
-                      <span className="font-bold text-primary">-${discount.toFixed(2)}</span>
+                      <span className="font-bold text-primary">{formatCurrency(-discount)}</span>
                     </div>
                   )}
                   <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                     <span className="text-slate-900 font-bold">Total</span>
-                    <span className="text-xl font-bold text-slate-900">${total.toFixed(2)}</span>
+                    <span className="text-xl font-bold text-slate-900">{formatCurrency(total)}</span>
                   </div>
                 </div>
                 <button 

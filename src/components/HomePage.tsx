@@ -5,6 +5,7 @@ import { HeroCarousel } from './HeroCarousel';
 import { ProductCard } from './ProductCard';
 import { CATEGORIES } from '../data';
 import { FreeGift, Product } from '../types';
+import { formatCurrency } from '../utils/currency';
 
 interface HomePageProps {
   products: Product[];
@@ -140,7 +141,7 @@ export const HomePage = ({
                                   <h4 className="text-sm font-semibold text-slate-900 truncate group-hover:text-primary transition-colors">
                                     {product.name}
                                   </h4>
-                                  <p className="text-xs text-slate-500">${product.price.toFixed(2)}</p>
+                                  <p className="text-xs text-slate-500">{formatCurrency(product.price)}</p>
                                 </div>
                                 <ArrowRight size={14} className="text-slate-300 group-hover:text-primary transition-colors" />
                               </button>
@@ -210,7 +211,7 @@ export const HomePage = ({
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <h4 className="text-[11px] font-bold text-slate-900 truncate">{product.name}</h4>
-                                      <p className="text-[10px] text-primary font-bold">${product.price.toFixed(2)}</p>
+                                      <p className="text-[10px] text-primary font-bold">{formatCurrency(product.price)}</p>
                                     </div>
                                   </button>
                                 ))}
@@ -235,7 +236,7 @@ export const HomePage = ({
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <h4 className="text-[11px] font-bold text-slate-900 truncate">{product.name}</h4>
-                                      <p className="text-[10px] text-primary font-bold">${product.price.toFixed(2)}</p>
+                                      <p className="text-[10px] text-primary font-bold">{formatCurrency(product.price)}</p>
                                     </div>
                                   </button>
                                 ))}

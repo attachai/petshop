@@ -2,6 +2,7 @@
 import { ArrowRight, CheckCircle2, ExternalLink, MapPin, Package, Phone, Truck } from 'lucide-react';
 
 import { PickupBranch, ShippingService, AddressForm, DeliveryMethod, DeliveryType } from '../types';
+import { formatCurrency } from '../../../utils/currency';
 
 interface DeliveryStepProps {
   deliveryMethod: DeliveryMethod;
@@ -114,7 +115,7 @@ export const DeliveryStep = ({
                 >
                   <div className="flex items-center justify-between w-full">
                     <span className="text-2xl">{service.icon}</span>
-                    <span className="text-xs font-bold text-primary bg-secondary/60 px-2 py-1 rounded-lg">${service.price}</span>
+                    <span className="text-xs font-bold text-primary bg-secondary/60 px-2 py-1 rounded-lg">{formatCurrency(service.price)}</span>
                   </div>
                   <span className="text-sm font-bold text-slate-900">{service.name}</span>
                 </button>
@@ -230,5 +231,7 @@ export const DeliveryStep = ({
     </motion.div>
   );
 };
+
+
 
 

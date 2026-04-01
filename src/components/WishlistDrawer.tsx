@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, ShoppingCart, X } from 'lucide-react';
 import { Product } from '../types';
+import { formatCurrency } from '../utils/currency';
 
 export const WishlistDrawer = ({ 
   isOpen, 
@@ -76,11 +77,11 @@ export const WishlistDrawer = ({
                         <div className="flex items-center gap-2">
                           {item.originalPrice ? (
                             <>
-                              <span className="text-sm font-bold text-rose-500">${item.price.toFixed(2)}</span>
-                              <span className="text-xs text-slate-400 line-through">${item.originalPrice.toFixed(2)}</span>
+                              <span className="text-sm font-bold text-rose-500">{formatCurrency(item.price)}</span>
+                              <span className="text-xs text-slate-400 line-through">{formatCurrency(item.originalPrice)}</span>
                             </>
                           ) : (
-                            <span className="text-sm font-bold text-slate-900">${item.price.toFixed(2)}</span>
+                            <span className="text-sm font-bold text-slate-900">{formatCurrency(item.price)}</span>
                           )}
                         </div>
                       </div>

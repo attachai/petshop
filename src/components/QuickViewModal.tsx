@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, Gift, Heart, Minus, Plus, ShoppingCart, Star, X } from 'lucide-react';
 import { Product, FreeGift } from '../types';
+import { formatCurrency } from '../utils/currency';
 
 export const QuickViewModal: React.FC<{ 
   product: Product | null, 
@@ -105,12 +106,12 @@ export const QuickViewModal: React.FC<{
               </div>
               <h2 className="text-3xl font-display font-bold text-slate-900 mb-4 leading-tight">{product.name}</h2>
               <div className="flex items-end gap-3 mb-6">
-                <span className="text-4xl font-bold text-slate-900">${product.price}</span>
+                <span className="text-4xl font-bold text-slate-900">{formatCurrency(product.price)}</span>
                 {product.originalPrice && (
                   <>
-                    <span className="text-xl text-slate-400 line-through mb-1">${product.originalPrice}</span>
+                    <span className="text-xl text-slate-400 line-through mb-1">{formatCurrency(product.originalPrice)}</span>
                     <span className="text-sm font-bold text-rose-500 bg-rose-50 px-2 py-1 rounded-lg mb-1">
-                      Save ${(product.originalPrice - product.price).toFixed(2)}
+                      Save {formatCurrency(product.originalPrice - product.price)}
                     </span>
                   </>
                 )}

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, ArrowRight, CheckCircle2, ChevronDown, Facebook, Gift, Heart, Minus, Plus, Share2, ShoppingCart, Star, Twitter } from 'lucide-react';
 import { Product, Review } from '../types';
+import { formatCurrency } from '../utils/currency';
 
 export const ProductDetailPage = ({ 
   products, 
@@ -143,11 +144,11 @@ export const ProductDetailPage = ({
               <div className="flex items-end gap-4 mb-8">
                 {product.originalPrice ? (
                   <>
-                    <span className="text-4xl font-display font-bold text-rose-500">${product.price.toFixed(2)}</span>
-                    <span className="text-xl text-slate-400 line-through mb-1">${product.originalPrice.toFixed(2)}</span>
+                    <span className="text-4xl font-display font-bold text-rose-500">{formatCurrency(product.price)}</span>
+                    <span className="text-xl text-slate-400 line-through mb-1">{formatCurrency(product.originalPrice)}</span>
                   </>
                 ) : (
-                  <span className="text-4xl font-display font-bold text-slate-900">${product.price.toFixed(2)}</span>
+                  <span className="text-4xl font-display font-bold text-slate-900">{formatCurrency(product.price)}</span>
                 )}
               </div>
 
@@ -389,11 +390,11 @@ export const ProductDetailPage = ({
                     <div className="flex items-center gap-2">
                       {related.originalPrice ? (
                         <>
-                          <span className="font-bold text-rose-500">${related.price.toFixed(2)}</span>
-                          <span className="text-xs text-slate-400 line-through">${related.originalPrice.toFixed(2)}</span>
+                          <span className="font-bold text-rose-500">{formatCurrency(related.price)}</span>
+                          <span className="text-xs text-slate-400 line-through">{formatCurrency(related.originalPrice)}</span>
                         </>
                       ) : (
-                        <span className="font-bold text-slate-900">${related.price.toFixed(2)}</span>
+                        <span className="font-bold text-slate-900">{formatCurrency(related.price)}</span>
                       )}
                     </div>
                   </div>
